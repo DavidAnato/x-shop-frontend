@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Inherit the existing report template -->
+        <template id="inherit_report_invoice_document" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@id='qrcode']" position="after">
+                <!-- Add a new table below the QR Code div -->
+                <div t-if="o.type == 'in_invoice'" class="mt32">
+                    <h3>Journal Items</h3>
+                    <table class="table table-sm o_main_table">
+                        <thead>
+                            <tr>
+                                <th>Account</th>
+                                <th>Label</th>
+                                <th class="text-right">Debit</th>
+                                <th class="text-right">Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="o.line_ids" t-as="line">
+                                <tr>
+                                    <td><span t-field="line.account_id.name"/></td>
+                                    <td><span t-field="line.name"/></td>
+                                    <td class="text-right">
+                                        <span t-esc="line.debit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;decimal_precision&quot;: &quot;Account&quot;}"/>
+                                    </td>
+                                    <td class="text-right">
+                                                    <span t-esc="line.credit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;decimal_precision&quot;: &quot;Account&quot;}"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[@name='reference']" position="after">
+                <!-- Add a new div for "Amount to Pay" -->
+                <div class="col-auto mw-100 mb-2" name="amount_to_pay">
+                    <strong>Amount to Pay:</strong>
+                    <p class="m-0">
+                        <span t-esc="o.amount_total"/>
+                    </p>
+                </div>
+            </xpath>
+
+              <xpath expr="//table[@name='invoice_line_table']" position="attributes">
+            <attribute name="t-if">o.type != 'in_invoice'</attribute>
+        </xpath>
+
+        <xpath expr="//div[@class='page']/h2" position="attributes">
+            <attribute name="t-if">o.type != 'in_invoice'</attribute>
+        </xpath>
+
+        <!-- Hide the div if it's a vendor bill -->
+        <xpath expr="//div[@id='total']" position="attributes">
+            <attribute name="t-if">o.type != 'in_invoice'</attribute>
+        </xpath>
+
+            <xpath expr="//div[@id='informations']" position="replace">
+        <div t-if="o.type != 'in_invoice'" id="informations" class="row mt32 mb32">
+            <!-- Existing content -->
+            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                <strong>Invoice Date:</strong>
+                <p class="m-0" t-field="o.invoice_date"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due and o.type == 'out_invoice' and o.state == 'posted'" name="due_date">
+                <strong>Due Date:</strong>
+                <p class="m-0" t-field="o.invoice_date_due"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.invoice_origin" name="origin">
+                <strong>Source:</strong>
+                <p class="m-0" t-field="o.invoice_origin"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.partner_id.ref" name="customer_code">
+                <strong>Customer Code:</strong>
+                <p class="m-0" t-field="o.partner_id.ref"/>
+            </div>
+            <div class="col-auto mw-100 mb-2" t-if="o.ref" name="reference">
+                <strong>Reference:</strong>
+                <p class="m-0" t-field="o.ref"/>
+            </div>
+
+             <div class="col-auto mw-100 mb-2" name="amount_to_pay">
+                    <strong>Amount to Pay:</strong>
+                    <p class="m-0">
+                        <span t-esc="o.amount_total"/>
+                    </p>
+                </div>
+
+        </div>
+
+        <div t-if="o.type == 'in_invoice'" id="overrriddent_information" class="row mt32 mb32">
+            <div>
+                 <div class="col-auto mw-100 mb-2" t-if="o.ref" name="reference">
+                <strong>Reference:</strong>
+                <p class="m-0" t-field="o.ref" style="font-size: 2.5em;"/>
+            </div>
+            </div>
+            <div>
+                <div class="col-auto mw-100 mb-2" name="amount_to_pay">
+                    <strong>Amount to Pay:</strong>
+                    <p class="m-0">
+                        <span t-esc="o.amount_total" t-options='{"widget": "float", "precision": 2}'/>
+
+
+                    </p>
+                </div>
+
+                 <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" name="invoice_date">
+                <strong>Invoice Date:</strong>
+                <p class="m-0" t-field="o.invoice_date"/>
+            </div>
+            </div>
+        </div>
+
+    </xpath>
+
+
+        </template>
+    </data>
+</odoo>

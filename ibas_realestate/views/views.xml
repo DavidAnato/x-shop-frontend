@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+
+  <record id="ibasre_project_view_form" model="ir.ui.view">
+    <field name="name">ibas_realestate.project.view.form</field>
+    <field name="model">ibas_realestate.project</field>
+    <field name="arch" type="xml">
+      <form string="">
+        <sheet>
+          <group>
+            <group>
+              <field name="name"/>
+              <field name="address"/>
+            </group>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="ibasre_project_view_tree" model="ir.ui.view">
+    <field name="name">ibas_realestate.project.view.tree</field>
+    <field name="model">ibas_realestate.project</field>
+    <field name="arch" type="xml">
+      <tree string="Projects" >
+        <field name="name"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="ibas_re_project_action" model="ir.actions.act_window">
+    <field name="name">Projects</field>
+    <field name="res_model">ibas_realestate.project</field>
+    <field name="view_mode">tree,form</field>
+    <field name="domain">[]</field>
+  </record>
+
+  <menuitem
+    id="ibas_re_menu"
+    name="Real Estate"
+    web_icon="ibas_realestate,static/src/img/na_logo.png"
+    sequence="10"/>
+
+    <menuitem
+      id="re_project_menu"
+      name="Projects"
+      action="ibas_re_project_action"
+      groups="ibas_realestate.group_ibas_realestate_administrator"
+      parent="ibas_re_menu"
+      sequence="10"/>
+
+    
+  <record id="ire_property_view_form" model="ir.ui.view">
+    <field name="name">ibas_realestate.property.view.form</field>
+    <field name="model">product.product</field>
+    <field name="arch" type="xml">
+      <form string="Property">
+      <header>
+        <button string="Tech Hold" name="tech_hold" type="object" class="oe_highlight" attrs="{'invisible' :['|',('on_hold', '=', True),('state','=', 'accept')]}" confirm="This will put this property in Tech Hold. Are you sure you want to continue?" groups="ibas_realestate.group_ibas_realestate_administrator"/>
+        <button string="Release Hold" name="release_hold" type="object" class="oe_highlight" attrs="{'invisible' :[('on_hold', '=', False)]}" confirm="This will release this property in Tech Hold. Are you sure you want to continue?" groups="ibas_realestate.group_ibas_realestate_administrator"/>
+        <!-- <button string="Get Requirements" name="get_requirements" type="object" class="oe_highlight" attrs="{'invisible' :['|',('reservation_line_ids', '!=', []),('state','=','open')]}"/> -->
+        <!-- <button string="Confirm" name="booked_sale" type="object" class="oe_highlight" attrs="{'invisible' :['|',('on_hold', '=', True),('state','!=','reserved')]}"/> -->
+        <button string="Revert" name="back_to_reservation" type="object" attrs="{'invisible' :['|',('on_hold', '=', True),('state','!=','booked')]}"/>
+        <button string="Confirm" name="contracted_sale" type="object" class="oe_highlight" attrs="{'invisible' :['|',('on_hold', '=', True),('state','!=','booked')]}"/>
+        <button string="Revert" name="back_to_booked" type="object" attrs="{'invisible' :['|',('on_hold', '=', True),('state','!=','contracted')]}"/>
+        <button string="Confirm" name="loan_proceeds" type="object" class="oe_highlight" attrs="{'invisible' :['|',('on_hold', '=', True),('state','!=','contracted')]}" groups="ibas_realestate.group_ibas_realestate_administrator,ibas_realestate.group_ibas_realestate_manager"/>
+        <button string="Revert" name="back_to_contracted" type="object" attrs="{'invisible' :['|',('on_hold', '=', True),('state','!=','proceed')]}"/>
+        <button string="Confirm" name="acceptance" type="object" class="oe_highlight" attrs="{'invisible' :['|',('on_hold', '=', True),('state','!=','proceed')]}" confirm="This will put this property in Acceptance. Are you sure you want to continue?" groups="ibas_realestate.group_ibas_realestate_administrator"/>
+        <field name="state" widget="statusbar"  statusbar_visible="open,reservation,reserved,booked,contracted"/>
+      </header>
+        <sheet>
+        <strong><field name="name" invisible="1"/></strong>
+        <field name="on_hold" invisible="1"/>
+          <group>
+            <group>
+            <field name="project_id" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="block" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="lot" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="phase" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="propmodel_id" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="propclass_id" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="proplot_id" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="finishing_id" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="floor_area" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="lot_area" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" required="1"/>
+            <field name="list_price" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" widget="monetary"/>
+            <!--
+            <field name="preselling_price" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" widget="monetary"/>
+            -->
+            <field name="responsible" invisible="1"/>
+            <field name="responsible_emp_id" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}"/>
+            
+            <field name="dp_terms" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}"/>
+            <field name="categ_id" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}"/>        
+            </group>
+            <group>
+            <!-- <field name="is_a_property"/> -->
+              <field name="current_sale_order_id" readonly="1"/>
+              <field name="customer" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}"/>
+              <field name="financing_type" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" invisible="1"/>
+              <field name="contractor" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}" invisible="1"/>
+              <field name="construction_status" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}"/>
+              <field name="construction_start_date" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}"/>
+              <field name="construction_current_date" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}"/>
+              <field name="construction_end_date" attrs="{'readonly' :['|',('on_hold', '=', True),('state','!=', 'open')]}"/>
+              <field name="actual_construction_complete_date" attrs="{'readonly' :['|','|',('on_hold', '=', True),('state','=', 'accept'),('state','=','proceed')]}"/>
+              <field name="last_dp_date" attrs="{'readonly' :['|','|',('on_hold', '=', True),('state','=', 'accept'),('state','=','proceed')]}"/>
+              <field name="reservation_date"/>
+              <field name="price_history_current_date" attrs="{'readonly' :['|','|',('on_hold', '=', True),('state','=', 'accept'),('state','=','proceed')]}"/>
+
+            </group>
+          </group>
+        </sheet>
+
+        <sheet>
+        <notebook>
+        <page string="Requirements" invisible="1">
+        <group>
+        <label for='reservation_line_ids' string="RESERVATION STAGE" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"/>
+        <field name="reservation_line_ids" nolabel="1" attrs="{'readonly': ['|',('state','!=','reserved'),('on_hold','=', True)]}">
+            <tree editable="bottom">
+              <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"/>
+              <field name="compliance_date"/>
+              <field name="requirement_file"/>
+              <field name="complied" attrs="{'readonly': [('requirement_file','!=', False)]}"/>
+            </tree>
+          </field>
+        </group>
+        <group>
+        <label for='booked_sale_line_ids' string="BOOKING STAGE" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"/>
+        <field name="booked_sale_line_ids" nolabel="1" attrs="{'readonly': ['|',('state','!=','booked'),('on_hold','=',True)]}">
+            <tree editable="bottom">
+              <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}" string="Booking"/>
+              <field name="compliance_date"/>
+              <field name="requirement_file"/>
+              <field name="complied" attrs="{'readonly': [('requirement_file','!=', False)]}"/>
+            </tree>
+          </field>
+        </group>
+        <group>
+        <label for='contracted_sale_line_ids' string="CONTRACTING STAGE" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"/>
+        <field name="contracted_sale_line_ids" nolabel="1" attrs="{'readonly': ['|',('state','!=','contracted'),('on_hold','=',True)]}">
+            <tree editable="bottom">
+              <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}" string="Contracting"/>
+              <field name="compliance_date"/>
+              <field name="requirement_file"/>
+              <field name="complied" attrs="{'readonly': [('requirement_file','!=', False)]}"/>
+            </tree>
+          </field>
+        </group>
+        <group>
+        <label for='loan_proceeds_line_ids' string="LOAN PROCEEDS" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"/>
+        <field name="loan_proceeds_line_ids" nolabel="1" attrs="{'readonly': ['|',('state','!=','proceed'),('on_hold','=',True)]}">
+            <tree editable="bottom">
+              <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"/>
+              <field name="compliance_date"/>
+              <field name="requirement_file"/>
+              <field name="complied" attrs="{'readonly': [('requirement_file','!=', False)]}"/>
+            </tree>
+          </field>
+        </group>
+        </page>
+        <page string="Price History">
+          <div colspan="5" col="5" style="padding: 5px; margin-right: 5px; margin-top: 3px; border: 1px solid black">
+            <button name="%(action_ibas_realestate_update_sale_price_wiz)d" colspan="5" type="action" string="Update Price" class="oe_highlight" attrs="{'invisible' :[('state', '!=', 'open')]}"/>
+          </div>
+          <group>
+          <!-- <field name="price_history_line_ids" nolabel="1" attrs="{'readonly' :['|',('on_hold', '=', True),('state','=', 'accept')]}"> -->
+          <field name="price_history_line_ids" nolabel="1">
+            <tree editable="bottom" default_order="effective_date desc">
+              <field name="effective_date"/>
+              <field name="selling_price"/>
+              <field name="pre_selling_price" invisible="1"/>
+              <field name="user_id"/>
+            </tree>
+          </field>
+          </group>
+        </page>
+        </notebook>
+        </sheet>
+
+         <div class="oe_chatter">
+                <field name="message_follower_ids" widget="mail_followers"/>
+                <field name="activity_ids" widget="mail_activity"/>
+                <field name="message_ids" widget="mail_thread"/>
+         </div>
+
+
+      </form>
+    </field>
+  </record>
+
+  <record id="ire_property_view_tree" model="ir.ui.view">
+    <field name="name">ibas_realestate.property.view.tree</field>
+    <field name="model">product.product</field>
+    
+    <field name="arch" type="xml">
+      <tree string="Properties">
+        <field name="name"/>
+        <field name="project_id"/>
+        <field name="customer"/>
+        <field name="list_price" sum="Total Selling Price"/>        
+        <field name="phase"/>
+        <field name="propmodel_id"/>
+        <field name="propclass_id"/>
+        <field name="proplot_id"/>
+        <field name="state"/>
+        <field name="responsible"/>
+      </tree>
+    </field>
+  </record>
+
+  <record id="ibas_re_view_kanban" model="ir.ui.view">
+    <field name="name">product.product.view.kanban</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_kanban_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//div[@name='tags']" position="before">
+        <div>
+        <button string="Open Property" name="open_view_form" 
+        type="object" attrs="{'invisible': [('is_a_property', '!=', True)]}"> Open Property </button> 
+        </div>
+        <field name="is_a_property" invisible="1"/>
+      </xpath>
+    </field>
+  </record>
+
+
+  <record id="ibas_product_search_form_view" model="ir.ui.view">
+    <field name="name">ibas.product.product.search</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="product.product_search_form_view"/>
+    <field name="arch" type="xml">
+      <xpath expr="//field[@name='categ_id']" position="after">
+        <!--<filter string="Year Reserve" name="year" context="{'group_by':'reservation_date:year'}"/>-->
+        <filter string="Month" domain="[]"  name="rmonthgrp" context="{'group_by':'reservation_date:month'}"/>
+        <filter string="State" name="stategrp" context="{'group_by':'state'}"/>
+
+        <filter string="Reserve Group" domain="[('state', '!=', 'open')]"  name="resmonthgrp" context="{'group_by':'reservation_date:month'}"/>
+      </xpath>
+    </field>
+  </record>
+
+  <!-- Custom Filters -->
+  <record id="filter_product_realst_prop" model="ir.filters">
+      <field name="name">By Month and Status w/o Available Status</field>
+      <field name="model_id">product.product</field>
+      <field name="domain">[('state','!=', 'open'), ('is_a_property','=', True)]</field>
+      <field name="user_id" eval="False"/>
+      <field name="action_id" eval="False"/>
+      <field name="context">{'group_by': ['reservation_date:month', 'state']}</field>
+  </record>  
+
+
+  <record id="filter_product_realst_prop_all" model="ir.filters">
+      <field name="name">By Month and Status</field>
+      <field name="model_id">product.product</field>
+      <field name="domain">[('is_a_property','=', True)]</field>
+      <field name="user_id" eval="False"/>
+      <field name="action_id" eval="False"/>
+      <field name="context">{'group_by': ['reservation_date:month', 'state']}</field>
+  </record>  
+
+  <record id="ire_ibas_property_action" model="ir.actions.act_window">
+    <field name="name">Properties</field>
+    <field name="res_model">product.product</field>
+    <field name="view_mode">tree,form</field>
+    <field name="context">{
+   'default_type': 'service',
+   'default_is_a_property': True,
+   'default_sale_ok': True,
+   }</field>
+    <field name="domain">[('is_a_property','=',True)]</field>
+  </record>
+
+  <!-- <record id="open_re_form_action" model="ir.actions.act_window">
+    <field name="name">Open RE Property Form</field>
+    <field name="res_model">product.product</field>
+    <field name="view_mode">form</field>
+     <field name="res_id" ref="active_id"></field>
+    <field name="view_id" ref="ire_property_view_form"/>
+  </record> -->
+
+  <record model="ir.actions.act_window.view" id="action_view_re_tree">
+ <field name="sequence" eval="1"/>
+ <field name="view_mode">tree</field>
+ <field name="view_id" ref="ire_property_view_tree"/>
+ <field name="act_window_id" ref="ire_ibas_property_action"/>
+</record>
+
+<record model="ir.actions.act_window.view" id="action_view_re_form">
+ <field name="sequence" eval="2"/>
+ <field name="view_mode">form</field>
+ <field name="view_id" ref="ire_property_view_form"/>
+ <field name="act_window_id" ref="ire_ibas_property_action"/>
+</record>
+
+
+  <menuitem
+    id="ire_property_menu"
+    name="Properties"
+    action="ire_ibas_property_action"
+    parent="ibas_re_menu"
+    sequence="10"/>
+
+  <record id="base.action_partner_customer_form" model="ir.actions.act_window">
+            <field name="name">Customers</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{'res_partner_search_mode': 'customer', 'default_is_company': False}</field>
+            <field name="filter" eval="True"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new customer in your address book
+              </p><p>
+                Odoo helps you easily track all activities related to a customer.
+              </p>
+            </field>
+  </record>
+
+  <record id="ire_property_view_form_user" model="ir.ui.view">
+    <field name="name">ibas_realestate.property.view.form.user</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="ibas_realestate.ire_property_view_form"/>
+    <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_ibas_realestate_user')])]"/>
+    <field name="arch" type="xml">
+      <xpath expr="//form" position="attributes">
+          <attribute name="duplicate">0</attribute>
+          <attribute name="delete">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  <record id="ire_property_view_tree_user" model="ir.ui.view">
+    <field name="name">ibas_realestate.property.view.tree.user</field>
+    <field name="model">product.product</field>
+    <field name="inherit_id" ref="ibas_realestate.ire_property_view_tree"/>
+    <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_ibas_realestate_user')])]"/>
+    <field name="arch" type="xml">
+      <xpath expr="//tree" position="attributes">
+          <attribute name="duplicate">0</attribute>
+          <attribute name="delete">0</attribute>
+      </xpath>
+    </field>
+  </record>
+
+  </data>
+</odoo>

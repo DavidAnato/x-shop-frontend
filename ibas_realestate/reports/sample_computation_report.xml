@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    <template id="sample_computation">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <link rel="stylesheet" type="text/scss" href="/ibas_realestate/static/src/css/nextasia.css"/>
+                            <table style="width: 100%;">
+                                <tr style="margin-top: 0;">
+                                    <td style="width: 23%; padding-top: 5px; padding-left: 2px;">
+                                        <img src="/ibas_realestate/static/src/img/next_asia.png" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <span>1901 Richville Corporate Tower, Madrigal Business</span> <br/>
+                                        <span>Park, Alabang Zapote Road, Muntinlupa City 1780</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td colspan="4" class="center bg-tomato" style="color: white; font-size: 24px"><strong><span>COMPUTATION</span></strong></td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 17%;"><span>Project Name:</span></td>
+                                    <td style="width: 43%;"><strong><span t-field="doc.project_id"/></strong></td>
+                                    <td style="width: 20%;"><span class="center">Date:</span></td>
+                                    
+                                    <td style="width: 20%;"><span class="center" t-field="doc.current_date"/></td>
+                                    <!--<td style="width: 20%;"><span class="center" t-field="doc.date_order"/></td>-->
+                                </tr>
+                                <tr>
+                                    <td><span>Address:</span></td>
+                                    <td><strong><span t-field="doc.project_id.address"/></strong></td>
+                                    <td><span class="center">Valid Until:</span></td>
+
+                                    <t t-if="doc.state=='draft'">
+                                        <td/>
+                                        
+                                    </t>
+                                    <t t-if="doc.state !='draft'">
+                                        <td style="width: 20%;"><span class="center" t-field="doc.validity_date"/></td>
+                                    </t>
+                                    <!--<td><span class="center" t-field="doc.sc_ids[0].date"/></td>-->
+                                </tr>
+                                <tr>
+                                    <td class="b-bottom" colspan="2"></td>
+                                    <td class="b-bottom"><span class="center">Terms</span></td>
+                                    <td class="b-bottom"><span class="center" t-field="doc.dp_terms"/></td>
+                                </tr>
+                            </table>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 17%">Client's Name:</td>
+                                    <td style="width: 37%"> <strong><span t-field="doc.partner_id"/></strong> </td>
+                                    <td style="width: 23%; text-align:right;">Block No.</td>
+                                    <td style="width: 23%" class="center"><span t-field="doc.unit_id.block"/></td>
+                                </tr> 
+                                <tr>
+                                    <td>House Model:</td>
+                                    <td><strong><span t-field="doc.unit_id.propmodel_id"/></strong></td>     
+                                    <td style="text-align:right;">Lot No.:</td>
+                                    <td class="center"><span t-field="doc.unit_id.lot"/></td>
+                                </tr> 
+                                <tr>
+                                    <td>Type:</td>
+                                    <td><strong><span t-field="doc.unit_id.propclass_id"/></strong></td>
+                                    <td style="text-align:right;">Lot Area(sqm):</td>
+                                     <td class="center"><span t-field="doc.unit_id.lot_area"/></td>
+                                </tr>
+                                 <tr>
+                                    <td>Financing Type:</td>
+                                    <td><strong><span t-field="doc.financing_type"/></strong></td>
+                                    <td style="text-align:right;">Floor Area(sqm):</td>
+                                    <td class="center"><span t-field="doc.unit_id.floor_area"/></td>
+                                </tr> 
+                                 <tr>
+                                    <td></td>
+                                    <td></td>
+                                </tr> 
+                                 <tr>
+                                    <td>Lot Class</td>
+                                    <td><strong><span t-field="doc.unit_id.proplot_id"/></strong></td>
+                                    <!--
+                                    <td style="text-align:right;"> <span t-field="doc.unit_id.preselling_price"/></td>
+                                    -->
+                                    <td style="text-align:right;">Reservation:</td>
+                                    <td class="b-bottom-1" style="text-align:right;"><span t-field="doc.sc_ids[0].payment_amount"/></td>
+                                </tr>
+
+                                 <tr>
+                                    <td>Finishing</td>
+                                    <td><strong><span t-field="doc.unit_id.finishing_id"/></strong></td>
+                                    <!--
+                                    <td>Discount:</td>
+                                    <td style="text-align:right;"> <span t-esc="'{:,.2f}'.format(doc.discount_amount)"/> Php</td>
+                                    -->
+                                    <td style="text-align:right;">Downpayment:</td>
+                                    <td class="b-bottom-1" style="text-align:right;"><span t-field="doc.downpayment"/></td>
+                                </tr>
+
+                                <tr>
+                                    <td>Selling Price</td>
+                                    <td style="text-align:right;"> <span t-field="doc.list_price"/></td>
+                                    <!--
+                                    <td>Discount:</td>
+                                    <td style="text-align:right;"> <span t-esc="'{:,.2f}'.format(doc.discount_amount)"/> Php</td>
+                                    -->
+                                    <td style="text-align:right;">Downpayment Discount:</td>
+                                    <td class="b-bottom-1" style="text-align:right;"><span t-field="doc.discount_spotdp"/></td>
+                                </tr> 
+                                <tr>
+                                    <td>Discounted Price:</td>
+                                    <td class="b-bottom b-right b-left b-top" style="text-align:right;"><span t-esc="'{:,.2f}'.format(doc.discounted_price)"/> Php</td>
+
+                                    <td><![CDATA[&nbsp;]]></td>
+                                    <td><![CDATA[&nbsp;]]></td>
+                                </tr> 
+                            </table>
+                            <hr class="line"/>
+                            <table style="width: 70%; margin-left: auto; margin-right: auto;">
+                                <tr>
+                                    <td class="bg-tomato center font-size-14 b-bottom b-left b-top" style="color: white; width: 22%;"><strong><span>DESCRIPTION</span></strong></td>
+                                    <td class="bg-tomato center font-size-14 b-top b-bottom" style="color: white; width: 24%;"><strong><span>DATE</span></strong></td>
+                                    <td class="bg-tomato center font-size-14 b-top b-bottom b-right" style="color: white; width: 24%;"><strong><span>AMOUNT</span></strong></td>
+                                </tr>
+                                <tr class="striped" t-foreach='doc.sc_ids' t-as='sc'>
+                                    <td class="center b-left font-size-14"> <span t-field="sc.description"/> </td>
+                                    <td class="center font-size-14"> <span t-field="sc.date"/> </td>
+                                    <td class="center b-right font-size-14"> <span t-field="sc.payment_amount"/> </td>
+                                </tr>
+                                <tr>
+                                    <td class="b-left b-bottom b-top"></td>
+                                    <td class="b-bottom b-top"></td>
+                                    <td class="center b-bottom b-right b-top"> <t t-esc="'{:,.2f}'.format(sum(total.payment_amount for total in doc.sc_ids))"/> Php </td>
+                                </tr>
+                                 <tr style="background-color:lightgray">
+                                    <td class="b-left b-bottom b-top"></td>
+                                    <td class="b-bottom b-top">Outstanding Balance</td>
+                                    <td class="center b-bottom b-right b-top"> <t t-esc="'{:,.2f}'.format(doc.loanable_amount)"/> Php </td>
+                                </tr>
+                                
+                            </table>
+                            
+                            <table style="width: 70%; margin-left: auto; margin-right: auto;">
+                            <tr>
+                                <td class="center"><i>Letter of Guarantee from Financing Institution</i></td>
+                            </tr>
+                            
+                            </table>
+                            <table style="width: 70%; margin-left: auto; margin-right: auto;">
+                            <tr>
+                                <td style="width: 35%;" class="center"><span></span></td>
+                                <td style="width: 35%;" class="center font-size-12"><i>Monthly Amortization</i></td>
+                            </tr>
+
+                            <t t-if="doc.financing_type =='phdmf'">
+                                <tr>
+                                    <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 5 years</i></td>
+                                    <td class="b-top-1 b-right-1 b-bottom-1 font-size-12" style="text-align: right;"><i><span t-field="doc.monthly_5"/></i></td>
+                                </tr>                                
+                                <tr>
+                                    <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 10 years</i></td>
+                                    <td class="b-top-1 b-right-1 b-bottom-1 font-size-12" style="text-align: right;"><i><span t-field="doc.monthly_10"/></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 20 years</i></td>
+                                    <td class="b-top-1 b-right-1 b-bottom-1 font-size-12" style="text-align: right;"><i><span t-field="doc.monthly_20"/></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 30 years</i></td>
+                                    <td class="b-top-1 b-right-1 b-bottom-1 font-size-12" style="text-align: right;"><i><span t-field="doc.monthly_30"/></i></td>
+                                </tr>
+                            </t>
+
+                            <t t-if="doc.financing_type =='bankf'">
+                                <tr>
+                                    <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 3 years</i></td>
+                                    <td class="b-top-1 b-right-1 b-bottom-1 font-size-12" style="text-align: right;"><i><span t-field="doc.monthly_3"/></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 5 years</i></td>
+                                    <td class="b-top-1 b-right-1 b-bottom-1 font-size-12" style="text-align: right;"><i><span t-field="doc.monthly_5"/></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 10 years</i></td>
+                                    <td class="b-top-1 b-right-1 b-bottom-1 font-size-12" style="text-align: right;"><i><span t-field="doc.monthly_10"/></i></td>
+                                </tr>
+                                <tr>
+                                    <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 20 years</i></td>
+                                    <td class="b-top-1 b-right-1 b-bottom-1 font-size-12" style="text-align: right;"><i><span t-field="doc.monthly_20"/></i></td>
+                                </tr>                                
+                            </t>                            
+                            
+                            </table>
+                          <!--  <table style="width: 70%; margin-left: auto; margin-right: auto;">
+                            <tr>
+                                <td class="center font-size-12"><span>BANK FINANCING</span></td>
+                            </tr>
+                            
+                            </table>
+                             <table style="width: 70%; margin-left: auto; margin-right: auto;">
+                            <tr>
+                                <td style="width: 35%;" class="center"><span></span></td>
+                                <td style="width: 18%;" class="center font-size-12"><i>Monthly Amortization</i></td>
+                                <td style="width: 17%;" class="center font-size-12"><i>Required Income</i></td>
+                            </tr>
+                            <tr>
+                                <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 3 yrs: 8%; 15 years</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>18,664</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>62,213</i></td>
+                            </tr>
+                             <tr>
+                                <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 3 yrs: 8%; 20 years</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>16,336</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>54,452</i></td>
+                            </tr>
+                            </table>
+                            <table style="width: 70%; margin-left: auto; margin-right: auto;">
+                            <tr>
+                                <td class="center font-size-12"><span>PAG-IBIG FINANCING</span></td>
+                            </tr>
+                            
+                            </table>
+                             <table style="width: 70%; margin-left: auto; margin-right: auto;">
+                            <tr>
+                                <td style="width: 35%;" class="center"><span></span></td>
+                                <td style="width: 18%;" class="center font-size-12"><i>Monthly Amortization</i></td>
+                                <td style="width: 17%;" class="center font-size-12"><i>Required Income</i></td>
+                            </tr>
+                            <tr>
+                                <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 3 yrs: 6.375%; 20 years</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>14,418</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>41,193</i></td>
+                            </tr>
+                            <tr>
+                                <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 3 yrs: 6.375%; 25 years</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>13,035</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>37,242</i></td>
+                            </tr>
+                            <tr>
+                                <td class="b-left-1 b-top-1 b-right-1 b-bottom-1 font-size-12"><i>Interest rate fixed for 3 yrs: 6.375%; 30 years</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>12,184</i></td>
+                                <td class="b-top-1 b-right-1 b-bottom-1 font-size-12"><i>34,812</i></td>
+                            </tr>
+                            </table> -->
+                            <div>
+                            <p class="font-size-12"> 
+                                <span><strong>Note:</strong></span> <br/>
+                                - All payments should be made directly to NEXT ASIALAND, INC. <br/>
+                                - Reservation is only valid for 30 days and strictly NON-REFUNDABLE. <br/>
+                                - Downpayment shall be covered by postdated checks. <br/>
+                                - The above monthly amortization is computed based on the prevailing interest rate of the Financing Institution for the term indicated and subject for re-pricing on the 4th year onwards. <br/>
+                                - Notwithstanding the above payment terms, all outstanding balance shall become due and demandable upon notice of turnover. <br/>
+                                - In the event that there is an increase in the amount of Other Charges as dictated by government agencies, the Seller shall have the right to charge the Purchaser an amount proportionate to or corresponding to the said increase. <br/>
+                                - The actual interest rate is only estimated and will be subjected for actual computation by the bank or pag-ibig. <br/>
+                                - This 10% downpayment and 90% loanable amount scheme is only for Developer's Acrredited Banks and Pag-Ibig. <br/>
+                                - This OFFICIAL COMPUTATION is only valid and binding if signed by the duly authorized signatories. <br/>
+                                - The 3% interest rate is applicable only for clients under provincial rate with maximum 12K and manila rate with 15K gross income per month otherwise 6.375% shall follow. <br/>
+                            </p>
+                            </div>
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="width: 29%">Conforme:</td>
+                                    <td style="width: 1%"> </td>
+                                    <td style="width: 29%"></td>
+                                    <td style="width: 1%"> </td>
+                                    <td style="width: 19%">Prepared by:</td>
+                                    <td style="width: 1%"> </td>
+                                    <td style="width: 20%">Noted By:</td>
+                                </tr>
+                                <tr>
+                                    <td class="b-bottom-1"><![CDATA[&nbsp;]]></td>
+                                    <td></td>
+                                    <td class="b-bottom-1"></td>
+                                    <td></td>
+                                    <td class="b-bottom-1"></td>
+                                    <td></td>
+                                    <td class="b-bottom-1"></td>
+                                </tr>
+                                <tr>
+                                    <td class="center font-size-12">BUYER SIGNATURE OVER PRINTED</td>
+                                    <td></td>
+                                    <td class="center font-size-12">SPOUSE/CO-BUYER SIGNATURE OVER</td>
+                                    <td></td>
+                                    <td class="center font-size-12">ASM/BSM</td>
+                                    <td></td>
+                                    <td class="center font-size-12">ACCOUNTING</td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <div>
+                                <p class="center font-size-10"> DISCLAIMER: THIS COMPUTATION IS FOR GENERAL ESTIMATE ONLY. 
+                                THE ABOVE ESTIMATED EXPENSES ARE ROUGH ESTIMATE ONLY. THE ACTUAL TAXES WILL BE SUBJECT <br/>
+                                FOR ACTUAL COMPUTATION BY THE CITY TREASURER OFFICE AND BY DULY ASSIGN ONETT OFFICER OF THE BIR. BANK FEES NOT INCLUDED.
+                                </p>
+                            </div>
+                        </div>
+                    </t>
+                </t>    
+            </t>
+    </template>
+    </data>
+</odoo>

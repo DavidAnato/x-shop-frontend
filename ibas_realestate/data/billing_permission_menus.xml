@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Inherit and add group access to Miscellaneous Entries -->
+        <record id="account.menu_finance_entries_accounting_miscellaneous" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Inherit and add group access to Journal Items -->
+        <record id="account.menu_action_move_journal_line_form" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Inherit and add group access to Journal Entries -->
+        <record id="account.menu_finance_entries" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Remove group access from Management -->
+        <record id="account.menu_finance_entries_management" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Remove group access from Actions -->
+        <record id="account.menu_finance_entries_actions" model="ir.ui.menu">
+            <field name="groups_id" eval="[(3, ref('account.group_account_invoice'))]"/>
+        </record>
+
+       <!-- Elevate access to Auto Transfer for Accounting Users -->
+        <record id="account_auto_transfer.menu_auto_transfer" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_manager')),(3, ref('account.group_account_user'))]"/>
+        </record>
+
+        <!-- Elevate access to Analytic Entries for Accounting Users and Remove for Analytic Accounting -->
+        <record id="account.menu_action_analytic_lines_tree" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_manager')),
+            (3, ref('analytic.group_analytic_accounting')),(3, ref('account.group_account_user'))]"/>
+        </record>
+
+        <!-- Elevate access to Manual Reconciliation for Accounting Users -->
+        <record id="account.menu_action_manual_reconciliation" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_manager')),(3, ref('account.group_account_user'))]"/>
+        </record>
+
+        <!-- Add access to Partners Reports for Account Invoice -->
+        <record id="account_reports.account_reports_partners_reports_menu" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Add access to Partner Ledger for Account Invoice -->
+        <record id="account_reports.menu_action_account_report_partner_ledger" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Add access to Aged Receivable for Account Invoice -->
+        <record id="account_reports.menu_action_account_report_aged_receivable" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Add access to Aged Payable for Account Invoice -->
+        <record id="account_reports.menu_action_account_report_aged_payable" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Add access to Finance Reports for Account Invoice -->
+        <record id="account.menu_finance_reports" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+        </record>
+
+        <!-- Add access to General Ledger for Account User -->
+        <record id="account_reports.menu_action_account_report_gt" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>
+        </record>
+
+        <!-- Add access to Print Journal for Account User -->
+        <record id="account_reports.menu_print_journal" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>
+        </record>
+
+        <!-- Add access to Invoice Analysis for Account User -->
+        <record id="account.menu_action_account_invoice_report_all" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>
+        </record>
+
+        <!-- Add access to Analytic Entries for Account User -->
+        <record id="account_reports.menu_action_report_account_analytic" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_user')), (3, ref('analytic.group_analytic_accounting'))]"/>
+        </record>
+
+        <!-- Add access to Assets Analysis for Account User -->
+        <record id="account_asset.menu_action_account_report_assets" model="ir.ui.menu">
+            <field name="groups_id" eval="[(4, ref('account.group_account_user'))]"/>
+        </record>
+
+        <!--Remove Delete Access-->
+
+         <!-- Modify existing access rights for Billing group on account.move -->
+        <record id="account.access_account_move_uinvoice" model="ir.model.access">
+            <field name="perm_unlink">0</field> <!-- Remove delete permission -->
+        </record>
+
+    </data>
+</odoo>

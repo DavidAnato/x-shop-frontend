@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_ibas_approve_account_bill,access_ibas_approve_account_bill,model_approve_account_bill,base.group_user,1,1,1,1
