@@ -2,6 +2,7 @@
 
 from odoo import models, fields, api
 
+
 class AccountMove(models.Model):
     _inherit = "account.move"
 
@@ -16,7 +17,9 @@ class AccountMove(models.Model):
         ('ceo', 'Chief Executive Officer'),
         ('posted', 'Posted'),
         ('reject', 'Rejected'),
-    ])
+    ], ondelete={'submitted': 'set default', 'finance_head': 'set default', 'coo': 'set default', 'ceo': 'set default',
+                 'posted': 'set default', 'reject': 'set default'}
+    )
 
     bill_state = fields.Selection(related='state', tracking=False)
     bill_status = fields.Char(compute='_compute_bill_status', string='Status')
@@ -25,7 +28,7 @@ class AccountMove(models.Model):
     def _compute_bill_status(self):
         for record in self:
             if record.state == 'draft':
-                record.bill_status = 'Draft' 
+                record.bill_status = 'Draft'
             elif record.state == 'submitted':
                 record.bill_status = 'To Approve by Finance Head'
             elif record.state == 'finance_head':
