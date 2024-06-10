@@ -1,7 +1,7 @@
 from odoo import models, api, _
 
 class CustomAgedReceivableReport(models.AbstractModel):
-    _inherit = "account.aged.receivable"
+    _inherit = "account.aged.receivable.report.handler"
 
     def _get_columns_name(self, options):
         columns = super(CustomAgedReceivableReport, self)._get_columns_name(options)

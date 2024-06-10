@@ -1,11 +1,6 @@
 # -*- coding : utf-8 -*-
 
-import time
-
-import odoo.addons.decimal_precision as dp
-
-from odoo import models, fields, api, tools, _
-from odoo.exceptions import UserError, ValidationError
+from odoo import models, fields, api, _
 
 
 class IBASUpdateSalePrice(models.TransientModel):
@@ -39,7 +34,7 @@ class IBASUpdateSalePrice(models.TransientModel):
                     'preselling_price': self.pre_selling_price,
                 })
 
-         # Open Properties Form
+        # Open Properties Form
         imd = self.env['ir.model.data']
         action = imd.xmlid_to_object(
             'ibas_realestate.ire_ibas_property_action')

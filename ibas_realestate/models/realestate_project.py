@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from odoo.http import request
+
+from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
-from dateutil.relativedelta import relativedelta
+from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 
@@ -33,7 +34,7 @@ class PropertiesProjectProperty(models.Model):
 
     currency_id = fields.Many2one('res.currency', related="company_id.currency_id",
                                   required=True, string='Currency', help="Main currency of the company.")
-    company_id = fields.Many2one('res.company', string='Company',  required=True,
+    company_id = fields.Many2one('res.company', string='Company', required=True,
                                  default=lambda self: self.env.company.id)
 
     @api.onchange('project_id', 'block', 'lot', 'propmodel_id')
@@ -43,7 +44,7 @@ class PropertiesProjectProperty(models.Model):
 
                 try:
                     rec.name = rec.project_id.name + ' Block ' + rec.block + \
-                        ' Lot ' + rec.lot + ' - ' + rec.propmodel_id.name
+                               ' Lot ' + rec.lot + ' - ' + rec.propmodel_id.name
                 except:
                     pass
 
@@ -159,14 +160,14 @@ class PropertiesProjectProperty(models.Model):
 
     @api.depends('sale_order_id.date_order')
     def _compute_reservation_date(self):
-        #sale_order = self.env['sale.order'].search(
+        # sale_order = self.env['sale.order'].search(
         #    [('unit_id', '=', self.id), ('state', '=', 'sale')], limit=1)
         for rec in self:
             sale_order = self.env['sale.order'].search(
-            [('unit_id', '=', rec.id), ('state', '=', 'sale')], limit=1)
+                [('unit_id', '=', rec.id), ('state', '=', 'sale')], limit=1)
             if sale_order:
                 reserve_date = sale_order[0].date_order + \
-                    relativedelta(hours=8)
+                               relativedelta(hours=8)
                 rec.reservation_date = reserve_date
             else:
                 rec.reservation_date = False
@@ -336,7 +337,7 @@ class PropertiesProjectProperty(models.Model):
         for rec in self:
             rec.state = 'contracted'
 
-     ####
+    ####
 
     def open_view_form(self):
         return {
@@ -349,7 +350,7 @@ class PropertiesProjectProperty(models.Model):
             'res_id': self.id
         }
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         res = super(PropertiesProjectProperty, self).create(vals)
         if res:
@@ -365,7 +366,7 @@ class PropertiesProjectProperty(models.Model):
 
     def write(self, vals):
         _logger.info(vals)
-        
+
         for rec in self:
             remove_list_price = False
             if 'list_price' in vals:
@@ -373,8 +374,8 @@ class PropertiesProjectProperty(models.Model):
                     remove_list_price = True
                 price_history_line_model = self.env['ibas_realestate.price_history_line']
 
-                #current_date = rec.price_history_current_date if 'price_history_current_date' in vals else fields.Datetime.now()
-                #raise Warning(current_date)
+                # current_date = rec.price_history_current_date if 'price_history_current_date' in vals else fields.Datetime.now()
+                # raise Warning(current_date)
 
                 validate_price = price_history_line_model.search(
                     [('product_id', '=', rec.id)], order="id asc", limit=1)
@@ -388,7 +389,6 @@ class PropertiesProjectProperty(models.Model):
                 if remove_list_price:
                     vals.pop('list_price')
 
-
                 if 'not_allow' in vals:
                     if vals['not_allow'] == True:
                         vals.pop('not_allow')
@@ -396,38 +396,42 @@ class PropertiesProjectProperty(models.Model):
 
                 res_create = price_history_line_model.create({
                     'product_id': rec.id,
-                    #'effective_date': rec.price_history_current_date,
-                    'effective_date': vals['price_history_current_date'] if 'price_history_current_date' in vals else fields.Datetime.now(),
+                    # 'effective_date': rec.price_history_current_date,
+                    'effective_date': vals[
+                        'price_history_current_date'] if 'price_history_current_date' in vals else fields.Datetime.now(),
                     'selling_price': list_price
                 })
 
         res = super(PropertiesProjectProperty, self).write(vals)
         return res
 
-    def updatePrice(self,allow_addhistory=True):
+    def updatePrice(self, allow_addhistory=True):
         for rec in self:
-            #raise Warning(fields.Datetime.now())
-            price_history_line_model = self.env['ibas_realestate.price_history_line'].search([('product_id', '=', rec.id),
-                                                                                                ('effective_date', '>=', fields.Datetime.now())], 
-                                                                                             order="effective_date desc", 
-                                                                                             limit=1)
+            # raise Warning(fields.Datetime.now())
+            price_history_line_model = self.env['ibas_realestate.price_history_line'].search(
+                [('product_id', '=', rec.id),
+                 ('effective_date', '>=', fields.Datetime.now())],
+                order="effective_date desc",
+                limit=1)
 
             update_vals = {
-                    'list_price': price_history_line_model.selling_price,
-                    'price_history_current_date': price_history_line_model.effective_date,}
+                'list_price': price_history_line_model.selling_price,
+                'price_history_current_date': price_history_line_model.effective_date, }
 
             if not allow_addhistory:
-                update_vals['not_allow'] =True
+                update_vals['not_allow'] = True
 
-            #CHeck First if there's a latest Price base on Date Now
-            #If Not check the Latest 
+            # CHeck First if there's a latest Price base on Date Now
+            # If Not check the Latest
             if not price_history_line_model:
-                price_history_line_model = self.env['ibas_realestate.price_history_line'].search([('product_id', '=', rec.id)], order="effective_date desc", limit=1)
+                price_history_line_model = self.env['ibas_realestate.price_history_line'].search(
+                    [('product_id', '=', rec.id)], order="effective_date desc", limit=1)
 
             if price_history_line_model:
                 update_vals['list_price'] = price_history_line_model.selling_price
                 update_vals['price_history_current_date'] = fields.Datetime.now()
                 rec.write(update_vals)
+
 
 # MENU Model
 
@@ -439,6 +443,7 @@ class IBASPropModel(models.Model):
     name = fields.Char(string='Name', required=True)
     project_id = fields.Many2one('ibas_realestate.project', string='Project')
 
+
 # MENU Client Requirements
 
 
@@ -449,7 +454,9 @@ class IBASRequirementModel(models.Model):
     name = fields.Char(string='Name', required=True)
     default_requirement = fields.Boolean(string='Default')
     stage = fields.Selection([('reservation', 'Reservation Stage'),
-                              ('booked', 'Contracting Stage'), ('contracted', 'Loan Release Stage'), ('proceeds', 'Turnover Stage')], string="Stage")
+                              ('booked', 'Contracting Stage'), ('contracted', 'Loan Release Stage'),
+                              ('proceeds', 'Turnover Stage')], string="Stage")
+
 
 # reservation
 
@@ -503,7 +510,7 @@ class IBASPropertyRequirementReservationLine(models.Model):
                     }
         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
 
-        if data_file.get('type') in ['image/jpeg','image/png','image/bmp','image/gif','image/svg']:
+        if data_file.get('type') in ['image/jpeg', 'image/png', 'image/bmp', 'image/gif', 'image/svg']:
             return {
                 'type': 'ir.actions.act_url',
                 'url': '%s/ibas/preview_attachment?attachment_id=%s' % (base_url, attachment_ids[0]),
@@ -511,14 +518,11 @@ class IBASPropertyRequirementReservationLine(models.Model):
             }
         else:
             return {
-                'target':'new',
+                'target': 'new',
                 'name': 'testing',
                 'type': 'ir.actions.act_url',
                 'url': '/web/content/%s/%d/%s?download=false' % (self._name, self.id, 'requirement_file')
             }
-
-
-
 
 
 class IBASPropertyRequirementBookedSaleLine(models.Model):
@@ -544,6 +548,7 @@ class IBASPropertyRequirementBookedSaleLine(models.Model):
                 })
             else:
                 rec.complied = False
+
 
 # contracted sale
 
@@ -597,6 +602,7 @@ class IBASPropertyRequirementLoanProceedsLine(models.Model):
             else:
                 rec.complied = False
 
+
 # Price History
 
 
@@ -612,13 +618,13 @@ class IBASPropertyPriceHistoryLine(models.Model):
     user_id = fields.Many2one('res.users', string='Update By:',
                               required=True, default=lambda self: self.env.uid)
 
-
-    @api.model
-    def create(self,vals):
+    @api.model_create_multi
+    def create(self, vals):
         res = super(IBASPropertyPriceHistoryLine, self).create(vals)
         if res:
             res.product_id.updatePrice(allow_addhistory=False)
         return res
+
 
 # MENU  Type
 
@@ -632,6 +638,7 @@ class PropertyClass(models.Model):
         ('unique_properties_name', 'UNIQUE(name)',
          'You can not have two properties')
     ]
+
 
 # MENU  Type
 

@@ -1,22 +1,22 @@
 <odoo>
     <data>
         <!-- Report  -->
-          <!--  <report
-            id="action_report_ibas_client_information"
-            model="res.partner"
-            string="Print Client Information Sheet"
-            report_type="qweb-pdf"
-            name="ibas_realestate.client_information_sheet"
-            file="ibas_realestate.client_information_sheet"
-        /> -->
+        <!--  <report
+          id="action_report_ibas_client_information"
+          model="res.partner"
+          string="Print Client Information Sheet"
+          report_type="qweb-pdf"
+          name="ibas_realestate.client_information_sheet"
+          file="ibas_realestate.client_information_sheet"
+      /> -->
 
         <report
-            id="action_report_ibas_sample_computation"
-            model="sale.order"
-            string="Sample Computation"
-            report_type="qweb-pdf"
-            name="ibas_realestate.sample_computation"
-            file="ibas_realestate.sample_computation"
+                id="action_report_ibas_sample_computation"
+                model="sale.order"
+                string="Sample Computation"
+                report_type="qweb-pdf"
+                name="ibas_realestate.sample_computation"
+                file="ibas_realestate.sample_computation"
         />
         <!-- Report Paper Formats -->
         <!-- <record id="paperformat_client_information" model="report.paperformat">
@@ -50,9 +50,9 @@
         </record>
 
         <!-- Apply Paper Formats -->
-      <!--  <record id="ibas_realestate.action_report_ibas_client_information" model="ir.actions.report">
-            <field name="paperformat_id" ref="ibas_realestate.paperformat_client_information" />
-        </record> -->
+        <!--  <record id="ibas_realestate.action_report_ibas_client_information" model="ir.actions.report">
+              <field name="paperformat_id" ref="ibas_realestate.paperformat_client_information" />
+          </record> -->
         <record id="ibas_realestate.action_report_ibas_sample_computation" model="ir.actions.report">
             <field name="paperformat_id" ref="ibas_realestate.paperformat_sample_computation"/>
         </record>

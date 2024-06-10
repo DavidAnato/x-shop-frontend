@@ -2,7 +2,7 @@
 
 import logging
 
-from odoo import _, api, fields, models
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -15,13 +15,13 @@ class IBASAccountPayment(models.Model):
     project_id = fields.Many2one('ibas_realestate.project', string='Project', compute='_compute_project', store=True,
                                  readonly=False)
 
-    @api.depends('invoice_ids','reconciled_invoice_ids')
+    @api.depends('reconciled_invoice_ids', 'reconciled_invoice_ids')
     def _compute_unit(self):
         for record in self:
             if record.payment_type == 'inbound':
                 first_invoice = record.invoice_ids[:1]
                 record.unit_id = first_invoice.unit_id if first_invoice else False
-                #if first_invoice is False then get it from reconciled_invoice_ids
+                # if first_invoice is False then get it from reconciled_invoice_ids
                 if not record.unit_id:
                     first_invoice = record.reconciled_invoice_ids[:1]
                     record.unit_id = first_invoice.unit_id if first_invoice else False
@@ -34,4 +34,3 @@ class IBASAccountPayment(models.Model):
     def relate_unit_id(self):
         for record in self:
             record._compute_unit()
-

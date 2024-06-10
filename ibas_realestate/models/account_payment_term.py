@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, exceptions, fields, models, _
-from odoo.exceptions import UserError, ValidationError
-
 from dateutil.relativedelta import relativedelta
-from datetime import datetime
+from odoo import fields, models
 
 
 class IbasAccountPaymentTerm(models.Model):
@@ -65,5 +62,5 @@ class IbasAccountPaymentTerm(models.Model):
 class IbasAccountPaymentTermLine(models.Model):
     _inherit = "account.payment.term.line"
 
-    option = fields.Selection(
-        selection_add=[('day_of_invoice_date', 'Day of Invoice Date')])
+    delay_type = fields.Selection(selection_add=[('day_of_invoice_date', 'Day of Invoice Date')],
+                                  ondelete={'day_of_invoice_date': 'set default'})

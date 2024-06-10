@@ -46,7 +46,7 @@ class IBASAccount(models.Model):
 
         invoice_ids = [move.id for move in self if move.id and move.is_invoice(
             include_receipts=True)]
-        self.env['account.payment'].flush(['state'])
+        # self.env['account.payment'].flush(['state'])
         if invoice_ids:
             self._cr.execute(
                 '''
@@ -84,7 +84,7 @@ class IBASAccount(models.Model):
 
                 # Untaxed amount.
                 if (move.is_invoice(include_receipts=True) and not line.exclude_from_invoice_tab) \
-                        or (move.type == 'entry' and line.debit and not line.tax_line_id):
+                        or (move.move_type == 'entry' and line.debit and not line.tax_line_id):
                     total_untaxed += line.balance
                     total_untaxed_currency += line.amount_currency
 
@@ -94,14 +94,14 @@ class IBASAccount(models.Model):
                     total_tax_currency += line.amount_currency
 
                 # Residual amount.
-                if move.type == 'entry' or line.account_id.user_type_id.type in ('receivable', 'payable'):
+                if move.move_type == 'entry' or line.account_id.user_type_id.type in ('receivable', 'payable'):
                     total_residual += line.amount_residual
                     total_residual_currency += line.amount_residual_currency
 
             total = total_untaxed + total_tax
             total_currency = total_untaxed_currency + total_tax_currency
 
-            if move.type == 'entry' or move.is_outbound():
+            if move.move_type == 'entry' or move.is_outbound():
                 sign = 1
             else:
                 sign = -1
@@ -126,14 +126,14 @@ class IBASAccount(models.Model):
             is_paid = currency and currency.is_zero(
                 move.amount_residual) or not move.amount_residual
 
-            # Compute 'invoice_payment_state'.
+            # Compute 'payment_state'.
             if move.state == 'posted' and is_paid:
                 if move.id in in_payment_set:
-                    move.invoice_payment_state = 'in_payment'
+                    move.payment_state = 'in_payment'
                 else:
-                    move.invoice_payment_state = 'paid'
+                    move.payment_state = 'paid'
             else:
-                move.invoice_payment_state = 'not_paid'
+                move.payment_state = 'not_paid'
 
     # discount_type = fields.Selection([('percent', 'Percentage'), ('amount', 'Amount')], string='Discount Type',
     #
