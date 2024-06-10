@@ -56,16 +56,11 @@
         <field name="arch" type="xml">
             <!--Create Payments-->
             <xpath expr="//button[@name='button_draft']" position="after">
-                <button name="refresh" attrs="{'invisible': [('state', '!=', 'draft')]}" string="refresh" class="oe_highlight" type="object"/>
+                <button name="refresh" invisible="state != 'draft'" string="refresh" class="oe_highlight" type="object"/>
                 <button name="create_voucher" string="Create Payments" class="oe_highlight" type="object" groups="account.group_account_invoice" 
-                attrs="{'invisible': ['|', '|', '|','|', 
-                                        ('payment_count', '!=', 0),
-                                        ('state', '!=', 'posted'), 
-                                        ('invoice_payment_state', '!=', 'not_paid'), 
-                                        ('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
-                                        ('is_user_collection','=',True)]}"/>
+                        invisible="payment_count != 0 or state != 'posted' or invoice_payment_state != 'not_paid' or type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt') or is_user_collection"/>
             </xpath>
-
+            
              <xpath expr="//page[@name='other_info']" position="after">
                 <page string="Payments" name="payments">
                     <field name="payment_count" invisible="1"/>
@@ -139,68 +134,34 @@
                 <attribute name="delete">0</attribute>
             </xpath>
             <xpath expr="//button[@name='action_invoice_sent'][1]" position="attributes">
-                <attribute name="attrs">{'invisible':['|', '|','|', ('state', '!=', 'posted'), 
-                                                                    ('invoice_sent', '=', True), 
-                                                                    ('type', 'not in', ('out_invoice', 'out_refund')),
-                                                                    ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">state != 'posted' or invoice_sent or type not in ('out_invoice', 'out_refund') or is_user_collection</attribute>
             </xpath>
-
             <xpath expr="//button[@name='action_invoice_sent'][2]" position="attributes">
-                <attribute name="attrs">{'invisible':['|', '|','|', ('state', '!=', 'posted'), 
-                                                                ('invoice_sent', '=', False), 
-                                                                ('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund')),
-                                                                ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">state != 'posted' or not invoice_sent or type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund') or is_user_collection</attribute>
             </xpath>
-
             <xpath expr="//button[@name='action_invoice_register_payment']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|', '|', '|', ('state', '!=', 'posted'), 
-                                                                      ('invoice_payment_state', '!=', 'not_paid'), 
-                                                                      ('type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),
-                                                                      ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">state != 'posted' or invoice_payment_state != 'not_paid' or type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt') or is_user_collection</attribute>
             </xpath>
-
             <xpath expr="//button[@name='preview_invoice']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',('type', 'not in', ('out_invoice', 'out_refund')),
-                                                           ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">type not in ('out_invoice', 'out_refund') or is_user_collection</attribute>
             </xpath>
-
             <xpath expr="//button[@name='action_reverse']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|','|', 
-                                                        ('type', 'not in', ('out_invoice', 'in_invoice')), 
-                                                        ('state', '!=', 'posted'),
-                                                        ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">type not in ('out_invoice', 'in_invoice') or state != 'posted' or is_user_collection</attribute>
             </xpath>
-
             <xpath expr="//button[@name='button_draft']" position="attributes">
-                <attribute name="attrs">{'invisible' : ['|','|', 
-                                                        ('restrict_mode_hash_table', '=', True), 
-                                                        ('state', 'not in', ('posted', 'cancel')),
-                                                        ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">restrict_mode_hash_table or state not in ('posted', 'cancel') or is_user_collection</attribute>
             </xpath>
-
             <xpath expr="//button[@name='action_post']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',
-                                                        ('state', '!=', 'draft'),
-                                                        ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">state != 'draft' or is_user_collection</attribute>
             </xpath>
-
             <xpath expr="//button[@name='preview_invoice']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',
-                                                        ('type', 'not in', ('out_invoice', 'out_refund')),
-                                                        ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">type not in ('out_invoice', 'out_refund') or is_user_collection</attribute>
             </xpath>
-
             <xpath expr="//button[@name='button_cancel']" position="attributes">
-                <attribute name="attrs">{'invisible' : ['|', '|', 
-                                                        ('id', '=', False), 
-                                                        ('state', '!=', 'draft'),
-                                                        ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">id = False or state != 'draft' or is_user_collection</attribute>
             </xpath>
-
             <xpath expr="//button[@name='refresh']" position="attributes">
-                <attribute name="attrs">{'invisible': ['|',
-                                                        ('state', '!=', 'draft'),
-                                                        ('is_user_collection','=',True)]}</attribute>
+                <attribute name="invisible">state != 'draft' or is_user_collection</attribute>
             </xpath>
         </field>
     </record>    
