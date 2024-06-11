@@ -6,8 +6,6 @@ from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, UserError, RedirectWarning, ValidationError
 from datetime import datetime
 from dateutil.relativedelta import *
-import odoo.addons.decimal_precision as dp
-
 
 _logger = logging.getLogger(__name__)
 
@@ -29,8 +27,7 @@ class IBASSale(models.Model):
                                  compute="_onchange_unit_id", store=True)
 
     # open date order, readonly=True
-    date_order = fields.Date(string='Order Date', required=True, readonly=False, index=True, states={'draft': [('readonly', False)], 'sent': [(
-        'readonly', False)]}, copy=False, default=fields.Date.today, help="Creation date of draft/sent orders,\nConfirmation date of confirmed orders.")
+    date_order = fields.Date(string='Order Date', required=True, readonly=False, index=True, copy=False, default=fields.Date.today, help="Creation date of draft/sent orders,\nConfirmation date of confirmed orders.")
 
     # Requirements related to properties
     reservation_line_ids = fields.One2many('ibas_realestate.requirement_reservation_line', 'sale_id', string='Reservation')
@@ -52,7 +49,7 @@ class IBASSale(models.Model):
     requirement_confirmed = fields.Boolean(string="Requirements Confirmed?")
     requirement_created = fields.Boolean(string="Requirements Created?")
 
-    partner_id = fields.Many2one('res.partner', states={'draft': [('readonly', False)], 'sent': [('readonly', False)], 'cancel': [('readonly', False)],})
+    partner_id = fields.Many2one('res.partner')
 
     network_id = fields.Many2one('sale.order.network', string='Network')
     network_supervisor_id = fields.Many2one('sale.order.network.supervisor', string='Supervisor')
@@ -442,16 +439,14 @@ class IBASSale(models.Model):
                 'amount_total': amount_untaxed + amount_tax,
             })
 
-    discount_rate = fields.Float('Discount Rate (f)', digits=dp.get_precision('Account'), readonly=True, states={
-                                 'draft': [('readonly', False)], 'sent': [('readonly', False)]}, compute='_compute_discount_rate')
+    discount_rate = fields.Float('Discount Rate (f)', digits='Discount', readonly=True, compute='_compute_discount_rate')
     amount_untaxed = fields.Monetary(string='Untaxed Amount', store=True, readonly=True, compute='_amount_all',
-                                     track_visibility='always')
+                                     tracking=True)
     amount_tax = fields.Monetary(string='Taxes', store=True, readonly=True, compute='_amount_all',
-                                 track_visibility='always')
+                                 tracking=True)
     amount_total = fields.Monetary(string='Total', store=True, readonly=True, compute='_amount_all',
-                                   track_visibility='always')
-    amount_discount = fields.Monetary(string='Discount', store=True, readonly=True, compute='_amount_all',
-                                      digits=dp.get_precision('Account'), track_visibility='always')
+                                   tracking=True)
+    amount_discount = fields.Monetary(string='Discount', store=True, readonly=True, compute='_amount_all', tracking=True)
 
     @api.depends('disc_spot', 'disc_amount')
     def _compute_discount_rate(self):
@@ -643,8 +638,7 @@ class IBASSale(models.Model):
         ('23', '23 Months'),
         ('24', '24 Months'),
 
-    ], string='DP Terms',
-        states={'draft': [('readonly', False)], 'sent': [('readonly', False)]})
+    ], string='DP Terms')
 
     #is_cash = fields.Boolean(string='Cash DP')
 
@@ -665,7 +659,7 @@ class IBASSale(models.Model):
         ], string='Financing Type', default='phdmf')
 
     # OVERRIDE
-    state = fields.Selection([
+    state = fields.Selection(selection_add=[
         ('draft', 'For Reservation'),
         ('sent', 'Quotation Sent'),
         ('sale', 'Sales Order'),

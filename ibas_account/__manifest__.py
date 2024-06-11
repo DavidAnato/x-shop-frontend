@@ -29,5 +29,7 @@
         'wizard/bill_approval_wizard_views.xml',
         
     ],
+
+    'license': 'LGPL-3',
      
 }

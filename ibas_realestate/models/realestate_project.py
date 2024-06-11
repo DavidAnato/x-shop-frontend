@@ -549,6 +549,45 @@ class IBASPropertyRequirementBookedSaleLine(models.Model):
             else:
                 rec.complied = False
 
+    def preview_attachment(self):
+        data_file = None
+        res_id = self.id
+        model = self._name
+        res_field = 'requirement_file'
+        size = self.requirement_file
+        if res_id and model and res_field and size:
+            # Using query as unable to find the data
+            query = """select id from ir_attachment 
+                where res_model=%s and 
+                res_id=%s and 
+                res_field=%s"""
+            request.env.cr.execute(query, (model, res_id, res_field,))
+            attachment_ids = request.env.cr.fetchall()
+            if attachment_ids:
+                attachment_ids = [t[0] for t in attachment_ids]
+                datas = request.env['ir.attachment'].sudo().browse(attachment_ids)
+                if datas and len(datas) == 1:
+                    data_file = {
+                        'name': datas.name or datas.dispay_name,
+                        'id': datas.id,
+                        'type': datas.mimetype,
+                    }
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+
+        if data_file.get('type') in ['image/jpeg', 'image/png', 'image/bmp', 'image/gif', 'image/svg']:
+            return {
+                'type': 'ir.actions.act_url',
+                'url': '%s/ibas/preview_attachment?attachment_id=%s' % (base_url, attachment_ids[0]),
+                'target': 'new',
+            }
+        else:
+            return {
+                'target': 'new',
+                'name': 'testing',
+                'type': 'ir.actions.act_url',
+                'url': '/web/content/%s/%d/%s?download=false' % (self._name, self.id, 'requirement_file')
+            }
+
 
 # contracted sale
 
@@ -577,6 +616,45 @@ class IBASPropertyRequirementContractedSaleLine(models.Model):
             else:
                 rec.complied = False
 
+    def preview_attachment(self):
+        data_file = None
+        res_id = self.id
+        model = self._name
+        res_field = 'requirement_file'
+        size = self.requirement_file
+        if res_id and model and res_field and size:
+            # Using query as unable to find the data
+            query = """select id from ir_attachment 
+                where res_model=%s and 
+                res_id=%s and 
+                res_field=%s"""
+            request.env.cr.execute(query, (model, res_id, res_field,))
+            attachment_ids = request.env.cr.fetchall()
+            if attachment_ids:
+                attachment_ids = [t[0] for t in attachment_ids]
+                datas = request.env['ir.attachment'].sudo().browse(attachment_ids)
+                if datas and len(datas) == 1:
+                    data_file = {
+                        'name': datas.name or datas.dispay_name,
+                        'id': datas.id,
+                        'type': datas.mimetype,
+                    }
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+
+        if data_file.get('type') in ['image/jpeg', 'image/png', 'image/bmp', 'image/gif', 'image/svg']:
+            return {
+                'type': 'ir.actions.act_url',
+                'url': '%s/ibas/preview_attachment?attachment_id=%s' % (base_url, attachment_ids[0]),
+                'target': 'new',
+            }
+        else:
+            return {
+                'target': 'new',
+                'name': 'testing',
+                'type': 'ir.actions.act_url',
+                'url': '/web/content/%s/%d/%s?download=false' % (self._name, self.id, 'requirement_file')
+            }
+
 
 class IBASPropertyRequirementLoanProceedsLine(models.Model):
     _name = 'ibas_realestate.requirement_loan_proceeds_line'
@@ -601,6 +679,45 @@ class IBASPropertyRequirementLoanProceedsLine(models.Model):
                 })
             else:
                 rec.complied = False
+
+    def preview_attachment(self):
+        data_file = None
+        res_id = self.id
+        model = self._name
+        res_field = 'requirement_file'
+        size = self.requirement_file
+        if res_id and model and res_field and size:
+            # Using query as unable to find the data
+            query = """select id from ir_attachment 
+                where res_model=%s and 
+                res_id=%s and 
+                res_field=%s"""
+            request.env.cr.execute(query, (model, res_id, res_field,))
+            attachment_ids = request.env.cr.fetchall()
+            if attachment_ids:
+                attachment_ids = [t[0] for t in attachment_ids]
+                datas = request.env['ir.attachment'].sudo().browse(attachment_ids)
+                if datas and len(datas) == 1:
+                    data_file = {
+                        'name': datas.name or datas.dispay_name,
+                        'id': datas.id,
+                        'type': datas.mimetype,
+                    }
+        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+
+        if data_file.get('type') in ['image/jpeg', 'image/png', 'image/bmp', 'image/gif', 'image/svg']:
+            return {
+                'type': 'ir.actions.act_url',
+                'url': '%s/ibas/preview_attachment?attachment_id=%s' % (base_url, attachment_ids[0]),
+                'target': 'new',
+            }
+        else:
+            return {
+                'target': 'new',
+                'name': 'testing',
+                'type': 'ir.actions.act_url',
+                'url': '/web/content/%s/%d/%s?download=false' % (self._name, self.id, 'requirement_file')
+            }
 
 
 # Price History

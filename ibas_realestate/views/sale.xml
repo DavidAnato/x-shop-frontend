@@ -15,14 +15,18 @@
                 </xpath>
 
                 <xpath expr="//button[@name='action_cancel']" position="replace">
-                    <button name="action_cancel" states="draft,sent,sale" type="object" string="Cancel" groups="sales_team.group_sale_manager,base.group_system"/>
+                    <button name="action_cancel" type="object" string="Cancel"
+                            groups="sales_team.group_sale_manager,base.group_system"
+                            invisible="state not in ('draft','sent','sale')"/>
                 </xpath>
 
                 <xpath expr="//field[@name='note']" position="before">
                     <field name="disc_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                     <field name="disc_spot" widget="monetary" options="{'currency_field': 'currency_id'}"/>
-                    <field name="discount_rate" string="Total Discount Amount" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1"/>
-                    <button colspan="2" name="button_dummy" states="draft,sent" string="(UPDATE DISCOUNT)" type="object" class="oe_link"/>
+                    <field name="discount_rate" string="Total Discount Amount" widget="monetary"
+                           options="{'currency_field': 'currency_id'}" readonly="1"/>
+                    <button colspan="2" name="button_dummy" string="(UPDATE DISCOUNT)" type="object"
+                            class="oe_link" invisible="state not in ('draft','sent')"/>
                 </xpath>
 
                 <xpath expr="//field[@name='validity_date']" position="before">
@@ -31,7 +35,7 @@
                 <xpath expr="//field[@name='partner_id']" position="before">
                     <field name="unit_id" context="{
                     'form_view_ref':'ibas_realestate.ire_property_view_form'
-                    }" />
+                    }"/>
                 </xpath>
                 <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="pre_selling_price" widget="monetary" invisible="1"/>
@@ -47,21 +51,29 @@
                             <field name="discount_type"/>
                             <field name="discount_rate_id" invisible="discount_type != 'percentage'"/>
                             <field name="discount_amount" widget="monetary" invisible="discount_type != 'fixed'"/>
-                            <field name="discount_amount_percent" widget="monetary" invisible="discount_type != 'percentage'"/>
+                            <field name="discount_amount_percent" widget="monetary"
+                                   invisible="discount_type != 'percentage'"/>
                             <field name="payment_term_id" options="{'no_open':True,'no_create': True}"/>
                         </group>
                         <group string="Down Payment">
                             <field name="downpayment_type"/>
-                            <field name="dp_per_rate" invisible="downpayment_type != 'percentage'" required="downpayment_type != 'fixed'"/>
-                            <field name="downpayment" string="Downpayment Amount" readonly="downpayment_type != 'fixed'" force_save="1"/>
+                            <field name="dp_per_rate" invisible="downpayment_type != 'percentage'"
+                                   required="downpayment_type != 'fixed'"/>
+                            <field name="downpayment" string="Downpayment Amount" readonly="downpayment_type != 'fixed'"
+                                   force_save="1"/>
                             <field name="fix_downpayment" string="Fix Downpayment Amount" invisible="1"/>
                             <!--<field name="is_cash"/> -->
                             <field name="discount_spotdp_type" string="Downpayment Discount Type"/>
-                            <field name="discount_spotdp_rate" string="Downpayment Discount Rate" invisible="discount_spotdp_type != 'percentage'" required="discount_spotdp_type != 'fixed'"/>
-                            <field name="discount_spotdp" string="Downpayment Discount" readonly="discount_spotdp_type == 'percentage'" force_save="1"/>
+                            <field name="discount_spotdp_rate" string="Downpayment Discount Rate"
+                                   invisible="discount_spotdp_type != 'percentage'"
+                                   required="discount_spotdp_type != 'fixed'"/>
+                            <field name="discount_spotdp" string="Downpayment Discount"
+                                   readonly="discount_spotdp_type == 'percentage'" force_save="1"/>
                             <field name="reservation_type"/>
-                            <field name="reservation_rate" invisible="reservation_type != 'percentage'" required="reservation_type == 'percentage'"/>
-                            <field name="reservation_amount" readonly="reservation_type == 'percentage'" force_save="1"/>
+                            <field name="reservation_rate" invisible="reservation_type != 'percentage'"
+                                   required="reservation_type == 'percentage'"/>
+                            <field name="reservation_amount" readonly="reservation_type == 'percentage'"
+                                   force_save="1"/>
                             <field name="dp_terms"/>
                         </group>
                     </group>
@@ -95,20 +107,29 @@
                                 <field name="monthly_20"/>
                                 <field name="monthly_25" invisible="financing_type != 'hcmf'"/>
                                 <field name="monthly_30" invisible="financing_type != 'phdmf'"/>
-                            </group>                            
+                            </group>
                         </group>
                     </page>
                 </xpath>
 
                 <xpath expr="//button[@name='action_draft']" position="after">
-                    <button string="Compute Sample Computation" name="action_compute_sc" type="object" class="oe_highlight"/>
-                    <button string="Get Requirements" name="get_requirements" type="object" class="oe_highlight" invisible="reservation_line_ids != [] or unit_id_state == 'open'"/>
-                    <button string="Confirm Reservation" name="booked_sale" type="object" class="oe_highlight" invisible="unit_id_on_hold == True or unit_id_state != 'reserved'"/>
-                    <button string="Confirm Booked" name="contracted_sale" type="object" class="oe_highlight" invisible="unit_id_on_hold == True or unit_id_state != 'booked'"/>
-                    <button string="Confirm Contracted" name="loan_proceeds" type="object" class="oe_highlight" invisible="unit_id_on_hold == True or unit_id_state != 'contracted'" groups="ibas_realestate.group_ibas_realestate_administrator,ibas_realestate.group_ibas_realestate_manager"/>
-                    <button string="Confirm Loan Proceeds" name="acceptance" type="object" class="oe_highlight" invisible="unit_id_on_hold == True or unit_id_state != 'proceed'" confirm="This will put this property in Acceptance. Are you sure you want to continue?" groups="ibas_realestate.group_ibas_realestate_administrator"/>
+                    <button string="Compute Sample Computation" name="action_compute_sc" type="object"
+                            class="oe_highlight"/>
+                    <button string="Get Requirements" name="get_requirements" type="object" class="oe_highlight"
+                            invisible="reservation_line_ids != [] or unit_id_state == 'open'"/>
+                    <button string="Confirm Reservation" name="booked_sale" type="object" class="oe_highlight"
+                            invisible="unit_id_on_hold == True or unit_id_state != 'reserved'"/>
+                    <button string="Confirm Booked" name="contracted_sale" type="object" class="oe_highlight"
+                            invisible="unit_id_on_hold == True or unit_id_state != 'booked'"/>
+                    <button string="Confirm Contracted" name="loan_proceeds" type="object" class="oe_highlight"
+                            invisible="unit_id_on_hold == True or unit_id_state != 'contracted'"
+                            groups="ibas_realestate.group_ibas_realestate_administrator,ibas_realestate.group_ibas_realestate_manager"/>
+                    <button string="Confirm Loan Proceeds" name="acceptance" type="object" class="oe_highlight"
+                            invisible="unit_id_on_hold == True or unit_id_state != 'proceed'"
+                            confirm="This will put this property in Acceptance. Are you sure you want to continue?"
+                            groups="ibas_realestate.group_ibas_realestate_administrator"/>
                 </xpath>
-                
+
                 <xpath expr="//page[@name='other_information']" position="after">
                     <page name="requirements" string="Requirements">
                         <group>
@@ -120,14 +141,19 @@
                             </group>
                         </group>
                         <group>
-                            <label for='reservation_line_ids' string="RESERVATION STAGE" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;" invisible="reservation_line_ids == []"/>
-                            <field name="reservation_line_ids" nolabel="1" readonly="unit_id_state not in ['reserved','reservation'] or unit_id_on_hold == True" invisible="reservation_line_ids == []">
+                            <label for='reservation_line_ids' string="RESERVATION STAGE" colspan="5"
+                                   style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
+                                   invisible="reservation_line_ids == []"/>
+                            <field name="reservation_line_ids" nolabel="1"
+                                   readonly="unit_id_state not in ['reserved','reservation'] or unit_id_on_hold == True"
+                                   invisible="reservation_line_ids == []">
                                 <tree editable="bottom">
                                     <!-- this oneeeee -->
                                     <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"/>
                                     <field name="compliance_date"/>
-                                    <field name="requirement_file" />
-                                    <button name="preview_attachment" invisible="requirement_file == False" id="preview_attachment" string="Preview" type="object" icon="fa-eye">
+                                    <field name="requirement_file"/>
+                                    <button name="preview_attachment" invisible="requirement_file == False"
+                                            id="preview_attachment" string="Preview" type="object" icon="fa-eye">
                                         <field name="requirement_file" invisible="1"/>
                                     </button>
                                     <field name="complied" readonly="requirement_file != False"/>
@@ -135,28 +161,37 @@
                             </field>
                         </group>
                         <group>
-                            <label for='sale_reservation_line_ids' string="RESERVATION STAGE" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;" invisible="reservation_line_ids != []"/>
-                            <field name="sale_reservation_line_ids" nolabel="1" invisible="reservation_line_ids != []" readonly="unit_id_state not in ['reserved','reservation'] or unit_id_on_hold == True">
+                            <label for='sale_reservation_line_ids' string="RESERVATION STAGE" colspan="5"
+                                   style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
+                                   invisible="reservation_line_ids != []"/>
+                            <field name="sale_reservation_line_ids" nolabel="1" invisible="reservation_line_ids != []"
+                                   readonly="unit_id_state not in ['reserved','reservation'] or unit_id_on_hold == True">
                                 <tree editable="bottom">
                                     <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"/>
                                     <field name="compliance_date"/>
                                     <field name="requirement_file"/>
-                                    <button name="preview_attachment" invisible="requirement_file == False" id="preview_attachment" string="Preview" type="object" icon="fa-eye">
+                                    <button name="preview_attachment" invisible="requirement_file == False"
+                                            id="preview_attachment" string="Preview" type="object" icon="fa-eye">
                                         <field name="requirement_file" invisible="1"/>
                                     </button>
                                     <field name="complied" readonly="requirement_file != False"/>
                                 </tree>
                             </field>
                         </group>
-                        
+
                         <group>
-                            <label for='booked_sale_line_ids' string="BOOKING STAGE" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;" invisible="booked_sale_line_ids == []"/>
-                            <field name="booked_sale_line_ids" nolabel="1" invisible="booked_sale_line_ids == []" readonly="unit_id_state != 'booked' or unit_id_on_hold == True">
+                            <label for='booked_sale_line_ids' string="BOOKING STAGE" colspan="5"
+                                   style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
+                                   invisible="booked_sale_line_ids == []"/>
+                            <field name="booked_sale_line_ids" nolabel="1" invisible="booked_sale_line_ids == []"
+                                   readonly="unit_id_state != 'booked' or unit_id_on_hold == True">
                                 <tree editable="bottom">
-                                    <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}" string="Booking"/>
+                                    <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"
+                                           string="Booking"/>
                                     <field name="compliance_date"/>
                                     <field name="requirement_file"/>
-                                    <button name="preview_attachment" invisible="requirement_file == False" id="preview_attachment" string="Preview" type="object" icon="fa-eye">
+                                    <button name="preview_attachment" invisible="requirement_file == False"
+                                            id="preview_attachment" string="Preview" type="object" icon="fa-eye">
                                         <field name="requirement_file" invisible="1"/>
                                     </button>
                                     <field name="complied" readonly="requirement_file != False"/>
@@ -164,28 +199,39 @@
                             </field>
                         </group>
                         <group>
-                            <label for='sale_booked_sale_line_ids' string="BOOKING STAGE" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;" invisible="booked_sale_line_ids != []"/>
-                            <field name="sale_booked_sale_line_ids" nolabel="1" invisible="booked_sale_line_ids != []" readonly="unit_id_state != 'booked' or unit_id_on_hold == True">
+                            <label for='sale_booked_sale_line_ids' string="BOOKING STAGE" colspan="5"
+                                   style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
+                                   invisible="booked_sale_line_ids != []"/>
+                            <field name="sale_booked_sale_line_ids" nolabel="1" invisible="booked_sale_line_ids != []"
+                                   readonly="unit_id_state != 'booked' or unit_id_on_hold == True">
                                 <tree editable="bottom">
-                                    <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}" string="Booking"/>
+                                    <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"
+                                           string="Booking"/>
                                     <field name="compliance_date"/>
                                     <field name="requirement_file"/>
-                                    <button name="preview_attachment" invisible="requirement_file == False" id="preview_attachment" string="Preview" type="object" icon="fa-eye">
+                                    <button name="preview_attachment" invisible="requirement_file == False"
+                                            id="preview_attachment" string="Preview" type="object" icon="fa-eye">
                                         <field name="requirement_file" invisible="1"/>
                                     </button>
                                     <field name="complied" readonly="requirement_file != False"/>
                                 </tree>
                             </field>
                         </group>
-                        
+
                         <group>
-                            <label for='contracted_sale_line_ids' string="CONTRACTING STAGE" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;" invisible="contracted_sale_line_ids == []" />
-                            <field name="contracted_sale_line_ids" nolabel="1" invisible="contracted_sale_line_ids == []" readonly="unit_id_state != 'contracted' or unit_id_on_hold == True">
+                            <label for='contracted_sale_line_ids' string="CONTRACTING STAGE" colspan="5"
+                                   style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
+                                   invisible="contracted_sale_line_ids == []"/>
+                            <field name="contracted_sale_line_ids" nolabel="1"
+                                   invisible="contracted_sale_line_ids == []"
+                                   readonly="unit_id_state != 'contracted' or unit_id_on_hold == True">
                                 <tree editable="bottom">
-                                    <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}" string="Contracting"/>
+                                    <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"
+                                           string="Contracting"/>
                                     <field name="compliance_date"/>
                                     <field name="requirement_file"/>
-                                    <button name="preview_attachment" invisible="requirement_file == False" id="preview_attachment" string="Preview" type="object" icon="fa-eye">
+                                    <button name="preview_attachment" invisible="requirement_file == False"
+                                            id="preview_attachment" string="Preview" type="object" icon="fa-eye">
                                         <field name="requirement_file" invisible="1"/>
                                     </button>
                                     <field name="complied" readonly="requirement_file != False"/>
@@ -193,28 +239,38 @@
                             </field>
                         </group>
                         <group>
-                            <label for='sale_contracted_sale_line_ids' string="CONTRACTING STAGE" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;" invisible="contracted_sale_line_ids != []"/>
-                            <field name="sale_contracted_sale_line_ids" nolabel="1" invisible="contracted_sale_line_ids != []" readonly="unit_id_state != 'contracted' or unit_id_on_hold == True">
+                            <label for='sale_contracted_sale_line_ids' string="CONTRACTING STAGE" colspan="5"
+                                   style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
+                                   invisible="contracted_sale_line_ids != []"/>
+                            <field name="sale_contracted_sale_line_ids" nolabel="1"
+                                   invisible="contracted_sale_line_ids != []"
+                                   readonly="unit_id_state != 'contracted' or unit_id_on_hold == True">
                                 <tree editable="bottom">
-                                    <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}" string="Contracting"/>
+                                    <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"
+                                           string="Contracting"/>
                                     <field name="compliance_date"/>
                                     <field name="requirement_file"/>
-                                    <button name="preview_attachment" invisible="requirement_file == False" id="preview_attachment" string="Preview" type="object" icon="fa-eye">
+                                    <button name="preview_attachment" invisible="requirement_file == False"
+                                            id="preview_attachment" string="Preview" type="object" icon="fa-eye">
                                         <field name="requirement_file" invisible="1"/>
                                     </button>
                                     <field name="complied" readonly="requirement_file != False"/>
                                 </tree>
                             </field>
                         </group>
-                        
+
                         <group>
-                            <label for='loan_proceeds_line_ids' string="LOAN PROCEEDS" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;" invisible="loan_proceeds_line_ids == []"/>
-                            <field name="loan_proceeds_line_ids" nolabel="1" invisible="loan_proceeds_line_ids == []" readonly="unit_id_state != 'proceed' or unit_id_on_hold == True">
+                            <label for='loan_proceeds_line_ids' string="LOAN PROCEEDS" colspan="5"
+                                   style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
+                                   invisible="loan_proceeds_line_ids == []"/>
+                            <field name="loan_proceeds_line_ids" nolabel="1" invisible="loan_proceeds_line_ids == []"
+                                   readonly="unit_id_state != 'proceed' or unit_id_on_hold == True">
                                 <tree editable="bottom">
                                     <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"/>
                                     <field name="compliance_date"/>
                                     <field name="requirement_file"/>
-                                    <button name="preview_attachment" invisible="requirement_file == False" id="preview_attachment" string="Preview" type="object" icon="fa-eye">
+                                    <button name="preview_attachment" invisible="requirement_file == False"
+                                            id="preview_attachment" string="Preview" type="object" icon="fa-eye">
                                         <field name="requirement_file" invisible="1"/>
                                     </button>
                                     <field name="complied" readonly="requirement_file != False"/>
@@ -222,26 +278,31 @@
                             </field>
                         </group>
                         <group>
-                            <label for='sale_loan_proceeds_line_ids' string="LOAN PROCEEDS" colspan="5" style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;" invisible="loan_proceeds_line_ids != []"/>
-                            <field name="sale_loan_proceeds_line_ids" nolabel="1" invisible="loan_proceeds_line_ids != []" readonly="unit_id_state != 'proceed' or unit_id_on_hold == True">
+                            <label for='sale_loan_proceeds_line_ids' string="LOAN PROCEEDS" colspan="5"
+                                   style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
+                                   invisible="loan_proceeds_line_ids != []"/>
+                            <field name="sale_loan_proceeds_line_ids" nolabel="1"
+                                   invisible="loan_proceeds_line_ids != []"
+                                   readonly="unit_id_state != 'proceed' or unit_id_on_hold == True">
                                 <tree editable="bottom">
                                     <field name="requirement" options="{'no_open':1,'no_create':1,'no_create_edit':1}"/>
                                     <field name="compliance_date"/>
                                     <field name="requirement_file"/>
-                                    <button name="preview_attachment" invisible="requirement_file == False" id="preview_attachment" string="Preview" type="object" icon="fa-eye">
+                                    <button name="preview_attachment" invisible="requirement_file == False"
+                                            id="preview_attachment" string="Preview" type="object" icon="fa-eye">
                                         <field name="requirement_file" invisible="1"/>
                                     </button>
                                     <field name="complied" readonly="requirement_file != False"/>
                                 </tree>
                             </field>
                         </group>
-                        
+
                     </page>
                 </xpath>
 
                 <xpath expr="//page[@name='other_information']/group[1]/group[2]" position="after">
                     <group>
-                        
+
                     </group>
                     <group name="seller_info" string="Sellers Info">
                         <field name="network_id"/>
@@ -274,16 +335,11 @@
                 </xpath>
 
 
-
                 <xpath expr="//field[@name='amount_total']" position="replace">
                     <field name="list_price" string="Total" widget="monetary" optional="hide"/>
                     <field name="disc_amount" widget="monetary" optional="hide"/>
                     <field name="discounted_price" widget="monetary"/>
                 </xpath>
-
-
-
-
 
 
             </field>
@@ -298,7 +354,8 @@
                     <field name="unit_id_state"/>
                 </xpath>
                 <xpath expr="//filter[@name='customer']" position="after">
-                    <filter name="unit_id_state" string="Unit Status" domain="[]" context="{'group_by': 'unit_id_state'}"/>
+                    <filter name="unit_id_state" string="Unit Status" domain="[]"
+                            context="{'group_by': 'unit_id_state'}"/>
                 </xpath>
             </field>
         </record>
@@ -359,16 +416,15 @@
         </record>
 
         <record id="open_sale_downpayment_rate" model="ir.actions.act_window">
-            <field name="name"> Downpayment Rate</field>
+            <field name="name">Downpayment Rate</field>
             <field name="res_model">sale.downpayment.rate</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-            Create a Downpayment Rate        
+                    Create a Downpayment Rate
                 </p>
             </field>
         </record>
-
 
 
         <!-- Interest Rate -->
@@ -410,12 +466,12 @@
         </record>
 
         <record id="open_sale_interest_rate" model="ir.actions.act_window">
-            <field name="name"> Interest Rate</field>
+            <field name="name">Interest Rate</field>
             <field name="res_model">sale.interest.rate</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-            Create a Interest Rate        
+                    Create a Interest Rate
                 </p>
             </field>
         </record>
@@ -464,7 +520,7 @@
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-            Create a Discount Rate        
+                    Create a Discount Rate
                 </p>
             </field>
         </record>
@@ -513,7 +569,7 @@
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-            Create a Spot Downpayment Rate        
+                    Create a Spot Downpayment Rate
                 </p>
             </field>
         </record>
@@ -562,20 +618,25 @@
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
-            Create a Reservation Rate        
+                    Create a Reservation Rate
                 </p>
             </field>
         </record>
 
 
-        <menuitem id="menu_sale_downpayment_rate" name= "Down Payment Rate" groups="base.group_system" parent="sale.menu_sale_config" action="open_sale_downpayment_rate" sequence="99"/>
+        <menuitem id="menu_sale_downpayment_rate" name="Down Payment Rate" groups="base.group_system"
+                  parent="sale.menu_sale_config" action="open_sale_downpayment_rate" sequence="99"/>
 
-        <menuitem id="menu_sale_interest_rate" name= "Interest Rate" groups="base.group_system" parent="sale.menu_sale_config" action="open_sale_interest_rate" sequence="100"/>
+        <menuitem id="menu_sale_interest_rate" name="Interest Rate" groups="base.group_system"
+                  parent="sale.menu_sale_config" action="open_sale_interest_rate" sequence="100"/>
 
-        <menuitem id="menu_sale_discount_rate" name= "Discount Rate" groups="base.group_system" parent="sale.menu_sale_config" action="open_sale_discount_rate" sequence="101"/>
+        <menuitem id="menu_sale_discount_rate" name="Discount Rate" groups="base.group_system"
+                  parent="sale.menu_sale_config" action="open_sale_discount_rate" sequence="101"/>
 
-        <menuitem id="menu_sale_spotdp_rate" name= "Spot Downpayment Rate" groups="base.group_system" parent="sale.menu_sale_config" action="open_sale_spotdp_rate" sequence="102"/>
+        <menuitem id="menu_sale_spotdp_rate" name="Spot Downpayment Rate" groups="base.group_system"
+                  parent="sale.menu_sale_config" action="open_sale_spotdp_rate" sequence="102"/>
 
-        <menuitem id="menu_sale_reservation_rate" name= "Reservation Rate" groups="base.group_system" parent="sale.menu_sale_config" action="open_sale_reservation_rate" sequence="102"/>
+        <menuitem id="menu_sale_reservation_rate" name="Reservation Rate" groups="base.group_system"
+                  parent="sale.menu_sale_config" action="open_sale_reservation_rate" sequence="102"/>
     </data>
 </odoo>

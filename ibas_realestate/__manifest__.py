@@ -40,7 +40,7 @@
         'reports/vendor_bill_journal_items.xml',
         'reports/report_journal_entry.xml',
         'views/views.xml',
-        # 'views/sale.xml',
+        'views/sale.xml',
         'views/client_requirement.xml',
         'views/res_partner.xml',
         'views/account.xml',
@@ -60,4 +60,5 @@
     ],
 
     'css': ['static/src/css/nextasia.css'],
+    'license': 'LGPL-3',
 }

@@ -136,23 +136,11 @@ class IBASCustomer(models.Model):
 
     cb_duration_stay_from = fields.Date(string='Co-Buyer From')
     cb_duration_stay_to = fields.Date(string='Co-Buyer To')
-    cb_home_ownership = fields.Selection([
-        ('owned', 'Owned'),
-        ('rented', 'Rented'),
-        ('relatives', 'Living with Relatives'),
-    ], string='Co-Buyer Current Home Ownership', related='cb_contact_id.home_ownership')
+    cb_home_ownership = fields.Selection(string='Co-Buyer Current Home Ownership', related='cb_contact_id.home_ownership')
 
-    cb_civil_status = fields.Selection([
-        ('Single', 'Single'),
-        ('Married', 'Married'),
-        ('Widowed', 'Widowed'),
-        ('Separated', 'Separated or Divorced'),
-    ], string='Co-Buyer Civil Status', related='cb_contact_id.civil_status')
+    cb_civil_status = fields.Selection(string='Co-Buyer Civil Status', related='cb_contact_id.civil_status')
 
-    cb_sex = fields.Selection([
-        ('male', 'Male'),
-        ('female', 'Female'),
-    ], string='Co-Buyer Gender', related='cb_contact_id.sex')
+    cb_sex = fields.Selection(string='Co-Buyer Gender', related='cb_contact_id.sex')
 
     cb_citizenship = fields.Char(
         string='Co-Buyer Citizenship', related='cb_contact_id.citizenship')
@@ -238,10 +226,7 @@ class IBASCustomer(models.Model):
     spouse_place_of_birth = fields.Char(
         related='spouse_contact_id.place_of_birth', string='Spouse Place of Birth')
 
-    spouse_sex = fields.Selection([
-        ('male', 'Male'),
-        ('female', 'Female'),
-    ], string='Spouse Sex', related='spouse_contact_id.sex')
+    spouse_sex = fields.Selection(string='Spouse Sex', related='spouse_contact_id.sex')
 
     spouse_sss_no = fields.Char(
         related='spouse_contact_id.sss_no', string='Spouse SSS No.')
@@ -307,17 +292,9 @@ class IBASCustomer(models.Model):
     spa_age = fields.Char(related='spa_contact_id.age', string='SPA Age')
     spa_place_of_birth = fields.Char(
         related='spa_contact_id.place_of_birth', string='SPA Place of Birth')
-    spa_civil_status = fields.Selection([
-        ('Single', 'Single'),
-        ('Married', 'Married'),
-        ('Widowed', 'Widowed'),
-        ('Separated', 'Separated or Divorced'),
-    ], string='SPA Civil Status', related='spa_contact_id.civil_status')
+    spa_civil_status = fields.Selection(string='SPA Civil Status', related='spa_contact_id.civil_status')
 
-    spa_sex = fields.Selection([
-        ('male', 'Male'),
-        ('female', 'Female'),
-    ], string='SPA Gender', related='spa_contact_id.sex')
+    spa_sex = fields.Selection(string='SPA Gender', related='spa_contact_id.sex')
     # Right
     spa_email = fields.Char(
         related='spa_contact_id.email', string='SPA Email Address')
