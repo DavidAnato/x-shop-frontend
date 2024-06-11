@@ -19,7 +19,7 @@ class IBASAccountPayment(models.Model):
     def _compute_unit(self):
         for record in self:
             if record.payment_type == 'inbound':
-                first_invoice = record.invoice_ids[:1]
+                first_invoice = record.reconciled_invoice_ids[:1]
                 record.unit_id = first_invoice.unit_id if first_invoice else False
                 # if first_invoice is False then get it from reconciled_invoice_ids
                 if not record.unit_id:

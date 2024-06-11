@@ -53,8 +53,9 @@
         <!--  <record id="ibas_realestate.action_report_ibas_client_information" model="ir.actions.report">
               <field name="paperformat_id" ref="ibas_realestate.paperformat_client_information" />
           </record> -->
-        <record id="ibas_realestate.action_report_ibas_sample_computation" model="ir.actions.report">
-            <field name="paperformat_id" ref="ibas_realestate.paperformat_sample_computation"/>
-        </record>
+<!--        <record id="ibas_realestate.action_report_ibas_sample_computation" model="ir.actions.report">-->
+<!--            <field name="name">ibas_realestate.sample_computation</field> &lt;!&ndash; Add the name field &ndash;&gt;-->
+<!--            <field name="paperformat_id" ref="ibas_realestate.paperformat_sample_computation"/>-->
+<!--        </record>-->
     </data>
 </odoo>

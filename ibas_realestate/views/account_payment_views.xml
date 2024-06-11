@@ -13,7 +13,7 @@
             </xpath>
 
 <!--            add xpath after <button name="cancel" states="draft" string="Cancel" type="object"/>-->
-            <xpath expr="//button[@name='cancel']" position="after">
+            <xpath expr="//button[@name='action_draft']" position="after">
                 <button name="relate_unit_id" string="Resolve Unit and Project" type="object"/>
             </xpath>
 
@@ -29,7 +29,7 @@
             
             <xpath expr="//field[@name='name']" position="after">
                 <field name='check_number'/>
-                <field name='communication'/>
+                <field name='ref'/>
             </xpath>
 
         </field>

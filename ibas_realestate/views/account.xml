@@ -1,53 +1,53 @@
 <odoo>
 <data>
-     <!-- receipt -->
-    <record model="ir.ui.menu" id="account.menu_action_move_out_receipt_type">
-		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
-	</record>
+<!--     &lt;!&ndash; receipt &ndash;&gt;-->
+<!--    <record model="ir.ui.menu" id="account.menu_action_move_out_receipt_type">-->
+<!--		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>-->
+<!--	</record>-->
 
-    <!-- credit notes -->
-    <record model="ir.ui.menu" id="account.menu_action_move_out_refund_type">
-		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
-	</record>
+<!--    &lt;!&ndash; credit notes &ndash;&gt;-->
+<!--    <record model="ir.ui.menu" id="account.menu_action_move_out_refund_type">-->
+<!--		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>-->
+<!--	</record>-->
 
-    <!-- invoice -->
-    <record model="ir.ui.menu" id="account.menu_action_move_out_invoice_type">
-		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
-	</record>
+<!--    &lt;!&ndash; invoice &ndash;&gt;-->
+<!--    <record model="ir.ui.menu" id="account.menu_action_move_out_invoice_type">-->
+<!--		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>-->
+<!--	</record>-->
 
-    <!-- Age Payable -->
-    <record model="ir.ui.menu" id="account_reports.menu_action_account_report_aged_payable">
-		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
-	</record>
-    <!-- Audit report Menu -->
-    <record model="ir.ui.menu" id="account_reports.account_reports_audit_reports_menu">
-		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
-	</record>
-    <!-- Report Management -->
-    <record model="ir.ui.menu" id="account.account_reports_management_menu">
-		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
-	</record>
-    <!-- Vendors -->
-    <record model="ir.ui.menu" id="account.menu_finance_payables">
-		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
-	</record>
-    <!-- Follow-up Report -->
-    <record model="ir.ui.menu" id="account_followup.customer_statements_menu">
-		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
-	</record>
-    <!-- Products -->
-    <record model="ir.ui.menu" id="account.product_product_menu_sellable">
-		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>
-	</record>
+<!--    &lt;!&ndash; Age Payable &ndash;&gt;-->
+<!--    <record model="ir.ui.menu" id="account_reports.menu_action_account_report_aged_payable">-->
+<!--		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>-->
+<!--	</record>-->
+<!--    &lt;!&ndash; Audit report Menu &ndash;&gt;-->
+<!--    <record model="ir.ui.menu" id="account_reports.account_reports_audit_reports_menu">-->
+<!--		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>-->
+<!--	</record>-->
+<!--    &lt;!&ndash; Report Management &ndash;&gt;-->
+<!--    <record model="ir.ui.menu" id="account.account_reports_management_menu">-->
+<!--		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>-->
+<!--	</record>-->
+<!--    &lt;!&ndash; Vendors &ndash;&gt;-->
+<!--    <record model="ir.ui.menu" id="account.menu_finance_payables">-->
+<!--		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>-->
+<!--	</record>-->
+<!--    &lt;!&ndash; Follow-up Report &ndash;&gt;-->
+<!--    <record model="ir.ui.menu" id="account_followup.customer_statements_menu">-->
+<!--		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>-->
+<!--	</record>-->
+<!--    &lt;!&ndash; Products &ndash;&gt;-->
+<!--    <record model="ir.ui.menu" id="account.product_product_menu_sellable">-->
+<!--		<field name="groups_id" eval="[(4,ref('account.group_account_invoice'))]"/>-->
+<!--	</record>-->
 
 
-    <record model="ir.ui.menu" id="account.menu_finance_reports">
-		<field name="groups_id" eval="[(4,ref('ibas_realestate.group_account_collection'))]"/>
-	</record>
+<!--    <record model="ir.ui.menu" id="account.menu_finance_reports">-->
+<!--		<field name="groups_id" eval="[(4,ref('ibas_realestate.group_account_collection'))]"/>-->
+<!--	</record>-->
 
-    <record model="ir.ui.menu" id="account_accountant.menu_accounting">
-		<field name="groups_id" eval="[(4,ref('ibas_realestate.group_account_collection'))]"/>
-	</record>
+<!--    <record model="ir.ui.menu" id="account_accountant.menu_accounting">-->
+<!--		<field name="groups_id" eval="[(4,ref('ibas_realestate.group_account_collection'))]"/>-->
+<!--	</record>-->
 
     <record id="ibas_account_move_view_form" model="ir.ui.view">
         <field name="name">account.move.view.form</field>
@@ -58,7 +58,7 @@
             <xpath expr="//button[@name='button_draft']" position="after">
                 <button name="refresh" invisible="state != 'draft'" string="refresh" class="oe_highlight" type="object"/>
                 <button name="create_voucher" string="Create Payments" class="oe_highlight" type="object" groups="account.group_account_invoice" 
-                        invisible="payment_count != 0 or state != 'posted' or invoice_payment_state != 'not_paid' or type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt') or is_user_collection"/>
+                        invisible="payment_count != 0 or state != 'posted' or payment_state != 'not_paid' or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt') or is_user_collection"/>
             </xpath>
             
              <xpath expr="//page[@name='other_info']" position="after">
@@ -66,10 +66,10 @@
                     <field name="payment_count" invisible="1"/>
                     <field name="payment_ids" widget="many2many">
                         <tree default_order="payment_date" delete="0" create="0">
-                        <field name="payment_date"/>
+                        <field name="date"/>
                         <field name="name"/>
                         <field name="check_number"/>
-                        <field name="communication"/>
+                        <field name="ref"/>
                         <field name="journal_id"/>
                         <field name="payment_method_id"/>
                         <field name="partner_id"/>
@@ -112,7 +112,7 @@
         <field name="name">account.invoice.tree.collection</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_invoice_tree"/>
-        <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_account_collection')])]"/>
+<!--        <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_account_collection')])]"/>-->
         <field name="arch" type="xml">
             <xpath expr="//tree" position="attributes">
                 <attribute name="create">0</attribute>
@@ -126,7 +126,7 @@
         <field name="name">account.move.view.form.collection</field>
         <field name="model">account.move</field>
         <field name="inherit_id" ref="account.view_move_form"/>
-        <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_account_collection')])]"/>
+<!--        <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_account_collection')])]"/>-->
         <field name="arch" type="xml">
             <xpath expr="//form" position="attributes">
                 <attribute name="create">0</attribute>
@@ -134,19 +134,19 @@
                 <attribute name="delete">0</attribute>
             </xpath>
             <xpath expr="//button[@name='action_invoice_sent'][1]" position="attributes">
-                <attribute name="invisible">state != 'posted' or invoice_sent or type not in ('out_invoice', 'out_refund') or is_user_collection</attribute>
+                <attribute name="invisible">state != 'posted' or is_move_sent or move_type not in ('out_invoice', 'out_refund') or is_user_collection</attribute>
             </xpath>
             <xpath expr="//button[@name='action_invoice_sent'][2]" position="attributes">
-                <attribute name="invisible">state != 'posted' or not invoice_sent or type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund') or is_user_collection</attribute>
+                <attribute name="invisible">state != 'posted' or not is_move_sent or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund') or is_user_collection</attribute>
             </xpath>
-            <xpath expr="//button[@name='action_invoice_register_payment']" position="attributes">
-                <attribute name="invisible">state != 'posted' or invoice_payment_state != 'not_paid' or type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt') or is_user_collection</attribute>
+            <xpath expr="//button[@name='action_register_payment']" position="attributes">
+                <attribute name="invisible">state != 'posted' or payment_state != 'not_paid' or move_type not in ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt') or is_user_collection</attribute>
             </xpath>
             <xpath expr="//button[@name='preview_invoice']" position="attributes">
-                <attribute name="invisible">type not in ('out_invoice', 'out_refund') or is_user_collection</attribute>
+                <attribute name="invisible">move_type not in ('out_invoice', 'out_refund') or is_user_collection</attribute>
             </xpath>
             <xpath expr="//button[@name='action_reverse']" position="attributes">
-                <attribute name="invisible">type not in ('out_invoice', 'in_invoice') or state != 'posted' or is_user_collection</attribute>
+                <attribute name="invisible">move_type not in ('out_invoice', 'in_invoice') or state != 'posted' or is_user_collection</attribute>
             </xpath>
             <xpath expr="//button[@name='button_draft']" position="attributes">
                 <attribute name="invisible">restrict_mode_hash_table or state not in ('posted', 'cancel') or is_user_collection</attribute>
@@ -155,10 +155,10 @@
                 <attribute name="invisible">state != 'draft' or is_user_collection</attribute>
             </xpath>
             <xpath expr="//button[@name='preview_invoice']" position="attributes">
-                <attribute name="invisible">type not in ('out_invoice', 'out_refund') or is_user_collection</attribute>
+                <attribute name="invisible">move_type not in ('out_invoice', 'out_refund') or is_user_collection</attribute>
             </xpath>
             <xpath expr="//button[@name='button_cancel']" position="attributes">
-                <attribute name="invisible">id = False or state != 'draft' or is_user_collection</attribute>
+                <attribute name="invisible">id == False or state != 'draft' or is_user_collection</attribute>
             </xpath>
             <xpath expr="//button[@name='refresh']" position="attributes">
                 <attribute name="invisible">state != 'draft' or is_user_collection</attribute>
@@ -174,12 +174,12 @@
             <xpath expr="//field[@name='invoice_origin']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
-            <xpath expr="//field[@name='invoice_payment_ref']" position="attributes">
+            <xpath expr="//field[@name='payment_reference']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='invoice_date']" position="before">
-                <field name="ref" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')" optional="show"/>
-                <field name="label" invisible="context.get('default_type') not in ('in_invoice', 'in_refund','in_receipt')" optional="show"/>
+                <field name="ref" invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" optional="show"/>
+                <field name="label" invisible="context.get('default_move_type') not in ('in_invoice', 'in_refund','in_receipt')" optional="show"/>
             </xpath>
         </field>
     </record>  

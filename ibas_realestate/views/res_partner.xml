@@ -261,11 +261,11 @@
                 </div>
             </xpath>    
             
-            <xpath expr="//label[@name='address_name']" position="replace">
-                <label for="" name="address_name">
-                    <b>Address</b>
-                </label>
-            </xpath>
+<!--            <xpath expr="//label[@name='address_name']" position="replace">-->
+<!--                <label for="" name="address_name">-->
+<!--                    <b>Address</b>-->
+<!--                </label>-->
+<!--            </xpath>-->
             
             <xpath expr="//field[@name='email']" position="replace">
                 <field name="email" required="partner_type == 'client'"/>

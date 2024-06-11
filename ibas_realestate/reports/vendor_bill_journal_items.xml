@@ -48,9 +48,9 @@
             <attribute name="t-if">o.type != 'in_invoice'</attribute>
         </xpath>
 
-        <xpath expr="//div[@class='page']/h2" position="attributes">
-            <attribute name="t-if">o.type != 'in_invoice'</attribute>
-        </xpath>
+<!--        <xpath expr="//div[@class='page']/h2" position="attributes">-->
+<!--            <attribute name="t-if">o.type != 'in_invoice'</attribute>-->
+<!--        </xpath>-->
 
         <!-- Hide the div if it's a vendor bill -->
         <xpath expr="//div[@id='total']" position="attributes">

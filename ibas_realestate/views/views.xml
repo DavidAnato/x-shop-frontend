@@ -316,7 +316,7 @@
     <field name="name">ibas_realestate.property.view.form.user</field>
     <field name="model">product.product</field>
     <field name="inherit_id" ref="ibas_realestate.ire_property_view_form"/>
-    <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_ibas_realestate_user')])]"/>
+<!--    <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_ibas_realestate_user')])]"/>-->
     <field name="arch" type="xml">
       <xpath expr="//form" position="attributes">
           <attribute name="duplicate">0</attribute>
@@ -329,7 +329,7 @@
     <field name="name">ibas_realestate.property.view.tree.user</field>
     <field name="model">product.product</field>
     <field name="inherit_id" ref="ibas_realestate.ire_property_view_tree"/>
-    <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_ibas_realestate_user')])]"/>
+<!--    <field name="groups_id" eval="[(6,0,[ref('ibas_realestate.group_ibas_realestate_user')])]"/>-->
     <field name="arch" type="xml">
       <xpath expr="//tree" position="attributes">
           <attribute name="duplicate">0</attribute>
