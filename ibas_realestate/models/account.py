@@ -174,7 +174,7 @@ class IBASAccount(models.Model):
                 line.discount = discount
                 line._onchange_price_subtotal()
 
-            inv._compute_invoice_taxes_by_group()
+            inv._compute_tax_totals()
 
     def create_voucher(self):
         if self.line_ids:

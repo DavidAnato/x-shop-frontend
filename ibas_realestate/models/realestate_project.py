@@ -396,7 +396,6 @@ class PropertiesProjectProperty(models.Model):
 
                 res_create = price_history_line_model.create({
                     'product_id': rec.id,
-                    # 'effective_date': rec.price_history_current_date,
                     'effective_date': vals[
                         'price_history_current_date'] if 'price_history_current_date' in vals else fields.Datetime.now(),
                     'selling_price': list_price

@@ -306,10 +306,12 @@ class IBASSale(models.Model):
         self.state = 'done'
 
     def action_confirm(self):
-        if self._get_forbidden_state_confirm() & set(self.mapped('state')):
+        forbidden_states = {'cancel', 'done'}
+
+        if forbidden_states & set(self.mapped('state')):
             raise UserError(_(
                 'It is not allowed to confirm an order in the following states: %s'
-            ) % (', '.join(self._get_forbidden_state_confirm())))
+            ) % (', '.join(forbidden_states)))
 
         if self.unit_id.state not in ['open','reservation']:
             raise UserError(_('This property is already sold'))
@@ -344,32 +346,53 @@ class IBASSale(models.Model):
             self.action_done()
         return True
 
-    @api.depends('unit_id', 'list_price')
+    # @api.depends('unit_id', 'list_price')
+    # def _onchange_unit_id(self):
+    #     for rec in self:
+    #         if rec.unit_id.id is not False:
+    #             rec.project_id = rec.unit_id.project_id.id
+    #             rec.pre_selling_price = rec.unit_id.preselling_price
+    #             rec.list_price = rec.unit_id.list_price
+    #             # rec.discount_amount = rec.pre_selling_price - rec.list_price
+    #             rec.dp_terms = rec.unit_id.dp_terms
+
+    #             self.update({
+    #                 'order_line': [(5, 0, 0)]
+    #             })
+
+    #             self.update({
+    #                 'order_line': [(0, 0, {
+    #                     'product_id': rec.unit_id.id,
+    #                     'product_uom_qty': 1,
+    #                     'price_unit': rec.list_price,
+    #                     'name': rec.unit_id.name,
+    #                     'customer_lead': 0
+    #                 })]
+    #             })
+
+    #             for line in rec.order_line:
+    #                 line.product_id_change()
+
+    @api.onchange('unit_id', 'list_price')
     def _onchange_unit_id(self):
         for rec in self:
-            if rec.unit_id.id is not False:
+            if rec.unit_id:
                 rec.project_id = rec.unit_id.project_id.id
                 rec.pre_selling_price = rec.unit_id.preselling_price
                 rec.list_price = rec.unit_id.list_price
-                # rec.discount_amount = rec.pre_selling_price - rec.list_price
                 rec.dp_terms = rec.unit_id.dp_terms
 
-                self.update({
-                    'order_line': [(5, 0, 0)]
-                })
+                # Clear existing order lines
+                rec.order_line = [(5, 0, 0)]
 
-                self.update({
-                    'order_line': [(0, 0, {
-                        'product_id': rec.unit_id.id,
-                        'product_uom_qty': 1,
-                        'price_unit': rec.list_price,
-                        'name': rec.unit_id.name,
-                        'customer_lead': 0
-                    })]
-                })
-
-                for line in rec.order_line:
-                    line.product_id_change()
+                # Add new order line
+                rec.order_line = [(0, 0, {
+                    'product_id': rec.unit_id.id,
+                    'product_uom_qty': 1,
+                    'price_unit': rec.list_price,
+                    'name': rec.unit_id.name,
+                    'customer_lead': 0
+                })]
 
     pre_selling_price = fields.Float(string='Pre Selling Price')
     list_price = fields.Float(string='Selling Price')

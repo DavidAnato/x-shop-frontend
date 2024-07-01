@@ -140,7 +140,7 @@
                                 <field name="requirement_created" readonly="1" groups="base.group_no_one"/>
                             </group>
                         </group>
-                        <group>
+                        <!-- <group> -->
                             <label for='reservation_line_ids' string="RESERVATION STAGE" colspan="5"
                                    style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
                                    invisible="reservation_line_ids == []"/>
@@ -159,7 +159,7 @@
                                     <field name="complied" readonly="requirement_file != False"/>
                                 </tree>
                             </field>
-                        </group>
+                        <!-- </group> -->
                         <group>
                             <label for='sale_reservation_line_ids' string="RESERVATION STAGE" colspan="5"
                                    style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
@@ -179,7 +179,7 @@
                             </field>
                         </group>
 
-                        <group>
+                        <!-- <group> -->
                             <label for='booked_sale_line_ids' string="BOOKING STAGE" colspan="5"
                                    style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
                                    invisible="booked_sale_line_ids == []"/>
@@ -197,7 +197,7 @@
                                     <field name="complied" readonly="requirement_file != False"/>
                                 </tree>
                             </field>
-                        </group>
+                        <!-- </group> -->
                         <group>
                             <label for='sale_booked_sale_line_ids' string="BOOKING STAGE" colspan="5"
                                    style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
@@ -218,7 +218,7 @@
                             </field>
                         </group>
 
-                        <group>
+                        <!-- <group> -->
                             <label for='contracted_sale_line_ids' string="CONTRACTING STAGE" colspan="5"
                                    style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
                                    invisible="contracted_sale_line_ids == []"/>
@@ -237,7 +237,7 @@
                                     <field name="complied" readonly="requirement_file != False"/>
                                 </tree>
                             </field>
-                        </group>
+                        <!-- </group> -->
                         <group>
                             <label for='sale_contracted_sale_line_ids' string="CONTRACTING STAGE" colspan="5"
                                    style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
@@ -259,7 +259,7 @@
                             </field>
                         </group>
 
-                        <group>
+                        <!-- <group> -->
                             <label for='loan_proceeds_line_ids' string="LOAN PROCEEDS" colspan="5"
                                    style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
                                    invisible="loan_proceeds_line_ids == []"/>
@@ -276,7 +276,7 @@
                                     <field name="complied" readonly="requirement_file != False"/>
                                 </tree>
                             </field>
-                        </group>
+                        <!-- </group> -->
                         <group>
                             <label for='sale_loan_proceeds_line_ids' string="LOAN PROCEEDS" colspan="5"
                                    style="font-size:13px; padding: 5px; vertical-align: middle; margin-top:0px; text-align:left; background-color: green; color:white; border:1px solid grey;"
