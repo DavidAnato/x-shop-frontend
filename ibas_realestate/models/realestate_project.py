@@ -379,10 +379,10 @@ class PropertiesProjectProperty(models.Model):
 
                 validate_price = price_history_line_model.search(
                     [('product_id', '=', rec.id)], order="id asc", limit=1)
-                if validate_price:
-                    if vals['list_price'] < validate_price.selling_price:
-                        raise ValidationError(
-                            "Selling Price is lower than the Original Price")
+                # if validate_price:
+                #     if vals['list_price'] < validate_price.selling_price:
+                #         raise ValidationError(
+                #             "Selling Price is lower than the Original Price")
 
                 list_price = vals['list_price']
 
