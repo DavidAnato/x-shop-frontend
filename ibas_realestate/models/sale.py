@@ -26,7 +26,6 @@ class IBASSale(models.Model):
             date_order = order.date_order or fields.Datetime.now()
             if isinstance(date_order, datetime):
                 date_order = date_order.date()
-            # Suite du code avec date_order maintenant sûr
             order.currency_rate = self.env['res.currency']._get_conversion_rate(
                 order.currency_id, order.company_id.currency_id, order.company_id, date_order
             )
