@@ -116,7 +116,7 @@
                     <button string="Compute Sample Computation" name="action_compute_sc" type="object"
                             class="oe_highlight"/>
                     <button string="Get Requirements" name="get_requirements" type="object" class="oe_highlight"
-                            invisible="reservation_line_ids != [] or unit_id_state == 'open'"/>
+                            />
                     <button string="Confirm Reservation" name="booked_sale" type="object" class="oe_highlight"
                             invisible="unit_id_on_hold == True or unit_id_state != 'reserved'"/>
                     <button string="Confirm Booked" name="contracted_sale" type="object" class="oe_highlight"

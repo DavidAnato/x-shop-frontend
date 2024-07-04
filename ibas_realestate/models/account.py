@@ -60,8 +60,7 @@ class IBASAccount(models.Model):
                         (rec_line.id = part.debit_move_id AND line.id = part.credit_move_id)
                     JOIN account_payment payment ON payment.id = rec_line.payment_id
                     JOIN account_journal journal ON journal.id = rec_line.journal_id
-                    WHERE payment.state IN ('posted', 'sent')
-                    AND journal.post_at = 'bank_rec'
+                    WHERE payment.payment_type IN ('posted', 'sent')
                     AND move.id IN %s
                 ''', [tuple(invoice_ids)]
             )
